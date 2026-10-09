@@ -24,6 +24,22 @@ export const en: Record<AgentLoopSettingsLocaleKey, string> = {
   invalidNumber: 'Enter a number, or leave blank to use the default.',
 }
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'title': 'Ciclo del agente',
+  'description': 'Controla cómo el agente ejecuta las llamadas a herramientas.',
+  'maxParallel': 'Llamadas paralelas a herramientas',
+  'maxParallelHint': 'Límite de llamadas que pueden ejecutarse de forma segura en paralelo durante un paso.',
+  'overridden': 'Reemplazado',
+  'reset': 'Restablecer valor predeterminado',
+  'readOnly': 'Esta implementación guarda la configuración en modo de solo lectura.',
+  'unavailable': 'Este plugin no está cargado, por lo que no se puede configurar ahora.',
+  'save': 'Guardar',
+  'saving': 'Guardando…',
+  'saveFailed': 'La implementación no aceptó estos valores; se conservaron para que puedas corregirlos.',
+  'invalidNumber': 'Ingresa un número o deja el campo vacío para usar el valor predeterminado.',
+} satisfies Record<keyof typeof en, string>
+
 /** Simplified Chinese copy. */
 export const zh: Record<AgentLoopSettingsLocaleKey, string> = {
   title: 'Agent 循环',

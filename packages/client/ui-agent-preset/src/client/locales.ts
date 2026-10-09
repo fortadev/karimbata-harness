@@ -1,6 +1,6 @@
 /** Locale bundles for the agent-preset hero chip, header label, and management section. */
 
-import { guideEn, guideZh, type PresetGuideKey } from './guide-locales.ts'
+import { guideEs, guideEn, guideZh, type PresetGuideKey } from './guide-locales.ts'
 
 /** Locale keys these surfaces render. */
 export type AgentPresetSettingsKey =
@@ -78,6 +78,39 @@ export const en: Record<AgentPresetSettingsKey, string> = {
   createPluginMissing: 'Creator mode is not included in this configuration',
 
 }
+
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'builtInGroup': 'Integrado',
+  'customGroup': 'Personalizado',
+  'sectionIntro': 'Elige las herramientas del agente y cómo trabaja. Usa el modo Estándar para tareas cotidianas o el modo Creador para agregar funciones a DSH.',
+  'seatHint': 'Elige el modo de agente para tu nueva tarea',
+  'headerHint': 'El modo de agente elegido al iniciar esta tarea',
+  'nav': 'Modos de agente',
+  'setDefault': 'Usar como predeterminado para tareas nuevas',
+  'view': 'Ver configuración',
+  'presetStandardName': 'Modo Estándar',
+  'presetStandardDescription': 'Trabaja con código, archivos e información. Adecuado para la mayoría de las tareas, con búsqueda, edición, comandos de terminal y otras herramientas disponibles según se necesiten.',
+  'presetPtcName': 'Modo PTC',
+  'presetPtcDescription': 'Incluye todas las funciones del modo Estándar. Es más adecuado para tareas que llaman a herramientas por lotes y luego filtran, organizan, eliminan duplicados, cuentan o resumen los resultados.',
+  'presetMinimalName': 'Modo Mínimo',
+  'presetMinimalDescription': 'El agente trabaja únicamente con una herramienta de terminal. Útil para probar y comparar su rendimiento básico.',
+  'presetCordisName': 'Modo Creador',
+  'presetCordisDescription': 'Personaliza DSH mediante una conversación. Permite que el agente escriba plugins que agreguen funciones o interfaces, o combine herramientas e instrucciones para crear tu propio modo.',
+  'inUse': 'Predeterminado para tareas nuevas',
+  'noDescription': 'Sin descripción.',
+  'brokenBadge': 'No se pudo cargar',
+  'switchRefused': 'No se pudo cambiar a {name}: {reason}',
+  'standardUnavailable': 'El modo Estándar no está disponible. Restáuralo o elige otro modo disponible.',
+  'close': 'Cerrar',
+  'creatorDraft': 'Pedir al agente que me ayude a crear un modo',
+  'createPlugin': 'Pedir al agente que cree un plugin',
+  'createPluginDescription': 'Entrar al modo Creador y crear tu propio plugin DSH',
+  'createPluginChecking': 'Comprobando si el modo Creador está disponible',
+  'createPluginUnavailable': 'No disponible temporalmente. Vuelve a abrir este menú para reintentar',
+  'createPluginMissing': 'El modo Creador no está incluido en esta configuración',
+  ...guideEs,
+} satisfies Record<keyof typeof en, string>
 
 /** Simplified Chinese copy. */
 export const zh: Record<AgentPresetSettingsKey, string> = {

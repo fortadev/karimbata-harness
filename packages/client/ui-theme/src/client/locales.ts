@@ -60,3 +60,32 @@ export const en = {
   'fontFamily.placeholder': 'Default',
   'fontSize.more': 'More font settings',
 } satisfies Record<ThemeKey, string>
+
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'appearance.title': 'Apariencia',
+  'appearance.light': 'Claro',
+  'appearance.dark': 'Oscuro',
+  'appearance.system': 'Sistema',
+  'fontSize.text.title': 'Tamaño de fuente',
+  'fontSize.text.description': 'Solo afecta el contenido de la conversación',
+  'fontSize.text.increase': 'Aumentar tamaño de fuente',
+  'fontSize.text.decrease': 'Reducir tamaño de fuente',
+  'fontSize.code.title': 'Tamaño de fuente de código',
+  'fontSize.code.description': 'Se usa en bloques de código, código en línea y salida de herramientas',
+  'fontSize.code.increase': 'Aumentar tamaño de fuente de código',
+  'fontSize.code.decrease': 'Reducir tamaño de fuente de código',
+  'fontSize.terminal.title': 'Tamaño de fuente de terminal',
+  'fontSize.terminal.description': 'Se usa en la terminal de la barra lateral',
+  'fontSize.terminal.increase': 'Aumentar tamaño de fuente de terminal',
+  'fontSize.terminal.decrease': 'Reducir tamaño de fuente de terminal',
+  'fontSize.unit': 'px',
+  'fontFamily.text.title': 'Fuente de texto',
+  'fontFamily.text.description': 'Se usa en la interfaz y en el texto de la conversación. Separa las fuentes con comas; deja el campo vacío para usar la predeterminada',
+  'fontFamily.code.title': 'Fuente de código',
+  'fontFamily.code.description': 'Se usa en bloques de código, código en línea y salida de herramientas. Separa las fuentes con comas; deja el campo vacío para usar la predeterminada',
+  'fontFamily.terminal.title': 'Fuente de terminal',
+  'fontFamily.terminal.description': 'Se usa en la terminal de la barra lateral. Separa las fuentes con comas; deja el campo vacío para usar la predeterminada',
+  'fontFamily.placeholder': 'Predeterminado',
+  'fontSize.more': 'Más opciones de fuentes',
+} satisfies Record<keyof typeof en, string>

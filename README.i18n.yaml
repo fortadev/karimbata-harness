@@ -2,33 +2,39 @@
 # section, a hash of its English and Chinese blocks outside code blocks and generated regions.
 # After editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write README.md
-/deepseek-harness:
-  en: f68c4f080ce55ff2
-  zh: 88a76d7f7f0b260e
-/deepseek-harness/developer-preview:
-  en: 4ef4d8a71ac143f0
-  zh: 1bfc3149ba8e5543
-/deepseek-harness/run:
-  en: 4e0248e4c6474fc6
-  zh: eb2fb8d78c7d6bc0
-/deepseek-harness/run/run-from-npm:
-  en: e22005cd42e6cbad
-  zh: 0f536f4208df1d60
-/deepseek-harness/run/run-from-source:
-  en: 819e3f7c144d0d64
-  zh: de815f040975dba7
-/deepseek-harness/community-and-support:
-  en: 20acf6451fdc869b
-  zh: d06246dd019ecef7
-/deepseek-harness/contributing:
-  en: cabc2d3e9f8898bd
-  zh: 83b6d238bae29ce3
-/deepseek-harness/development:
-  en: 803ca2b11b497bed
-  zh: 8b4071eb0e7783ef
-/deepseek-harness/citation:
-  en: 6704e9e5a8d49a91
-  zh: 85c9cdd8d56f8e9d
-/deepseek-harness/license:
-  en: 926995344fc1c72b
-  zh: c92fab5abf85932f
+/karimbata-harness:
+  en: 44960ad0850bbfb5
+  zh: 3c959ac384f1c78d
+/karimbata-harness/funcionalidades:
+  en: 14bf648e14c197c6
+  zh: 7ac4ed4172e7a113
+/karimbata-harness/c-mo-funciona:
+  en: 5ef75b55df7e9410
+  zh: a2ac179ce8e62b95
+/karimbata-harness/versi-n-preliminar:
+  en: 179c165a1e262785
+  zh: 28e7c46f455d5d37
+/karimbata-harness/instalaci-n-y-ejecuci-n:
+  en: c5063b7ab7fcb6bf
+  zh: f20bc002a11d9e86
+/karimbata-harness/instalaci-n-y-ejecuci-n/ejecutar-desde-el-c-digo-fuente:
+  en: 45bdd2afd9c524c7
+  zh: d97f9382b20384aa
+/karimbata-harness/configurar-el-proveedor-y-el-modelo-de-ia:
+  en: 78a4925293047155
+  zh: cad5713cd8f23dd1
+/karimbata-harness/idioma-de-la-interfaz:
+  en: e77863c95f84bc51
+  zh: 89c826d4747551a8
+/karimbata-harness/desarrollo-y-contribuciones:
+  en: abcc7577a0804c09
+  zh: 05e2e5bb948ade65
+/karimbata-harness/soporte:
+  en: 15aec15e6adc7ae7
+  zh: 98d751145cef5edf
+/karimbata-harness/cr-ditos:
+  en: 1eff58aee4ef4568
+  zh: ee2e82f8912291ee
+/karimbata-harness/licencia:
+  en: 6cf384611c027eb3
+  zh: 853c3717986b926c

@@ -76,6 +76,85 @@ beforeEach(() => {
 
 afterEach(cleanup)
 
+describe('ModelSelect provider selection', () => {
+  const groups = [...state().groups, {
+    id: 'moonshotai', name: 'Kimi', models: [
+      { id: 'kimi-first', name: 'Kimi First', reasoning },
+      { id: 'kimi-second', name: 'Kimi Second' },
+    ],
+  }, { id: 'empty', name: 'Empty', models: [] }]
+
+  it('applies a provider and its first model together, then lists only that provider models', async () => {
+    const directory = createSnapshotStore(state({ groups }))
+    const select = vi.fn(async (selection: ModelSelection) => {
+      directory.set(state({ groups, current: selection }))
+      return { ok: true as const, value: undefined }
+    })
+    render(<ModelSelect locked={false} available directory={directory} load={vi.fn()} select={select} t={t} />)
+    const provider = screen.getByRole('button', { name: zh['provider.aria'].replace('{provider}', 'DeepSeek') })
+    fireEvent.click(provider)
+    expect(screen.getAllByRole('menuitemradio').map(row => row.textContent)).toEqual(['DeepSeek', 'Kimi'])
+    fireEvent.click(screen.getByRole('menuitemradio', { name: 'Kimi' }))
+    await waitFor(() => { expect(provider.getAttribute('aria-expanded')).toBe('false') })
+    expect(select).toHaveBeenCalledWith({ provider: 'moonshotai', model: 'kimi-first', reasoningEffort: 'high' })
+    expect(document.activeElement).toBe(provider)
+    fireEvent.click(screen.getByRole('button', { name: /选择模型/ }))
+    fireEvent.click(screen.getByRole('menuitem', { name: /模型/ }))
+    expect(screen.getAllByRole('menuitemradio').map(row => row.textContent)).toEqual(['Kimi First', 'Kimi Second'])
+    expect(screen.queryByRole('searchbox')).toBeNull()
+    const snapshot = [...document.querySelectorAll<HTMLElement>('button[aria-haspopup="menu"], [role="menuitemradio"]')]
+      .map(element => `${element.getAttribute('aria-label') ?? element.textContent}|${element.getAttribute('aria-checked') ?? ''}`)
+      .join('\n')
+    await expect(`${snapshot}\n`).toMatchFileSnapshot('./expected/provider-model-selection.txt')
+  })
+
+  it('preserves the current model and effort when its provider is selected again', async () => {
+    const current = { provider: 'moonshotai', model: 'kimi-second', reasoningEffort: 'max' }
+    const directory = createSnapshotStore(state({ groups, current }))
+    const select = vi.fn()
+    render(<ModelSelect locked={false} available directory={directory} load={vi.fn()} select={select} t={t} />)
+    fireEvent.click(screen.getByRole('button', { name: /AI 提供商/ }))
+    fireEvent.click(screen.getByRole('menuitemradio', { name: 'Kimi' }))
+    await waitFor(() => { expect(screen.queryByRole('menu')).toBeNull() })
+    expect(select).not.toHaveBeenCalled()
+    expect(directory.getSnapshot().current).toEqual(current)
+  })
+
+  it('supports provider keyboard navigation and restores the provider trigger on Escape', async () => {
+    render(<ModelSelect locked={false} available directory={createSnapshotStore(state({ groups }))}
+      load={vi.fn()} select={vi.fn()} t={t} />)
+    const trigger = screen.getByRole('button', { name: /AI 提供商/ })
+    fireEvent.click(trigger)
+    expect(document.activeElement).toBe(screen.getByRole('menuitemradio', { name: 'DeepSeek' }))
+    fireEvent.keyDown(document.activeElement!, { key: 'ArrowDown' })
+    expect(document.activeElement).toBe(screen.getByRole('menuitemradio', { name: 'Kimi' }))
+    fireEvent.keyDown(document.activeElement!, { key: 'Escape' })
+    await waitFor(() => { expect(document.activeElement).toBe(trigger) })
+    expect(screen.queryByRole('menu')).toBeNull()
+  })
+
+  it('keeps the previous selection on a rejected provider switch and reports catalog failures with retry', async () => {
+    const directory = createSnapshotStore(state({ groups, failures: [{ id: 'offline', name: 'Offline', message: 'catalog unavailable' }] }))
+    const load = vi.fn()
+    const select = vi.fn(async () => ({ ok: false as const, error: new RemoteError('session/model-unavailable', 'images unsupported', {
+      provider: 'moonshotai', model: 'kimi-first',
+    }) }))
+    render(<ModelSelect locked={false} available directory={directory} load={load} select={select} t={t} />)
+    const trigger = screen.getByRole('button', { name: /AI 提供商/ })
+    fireEvent.click(trigger)
+    expect(screen.getByText('Offline 加载失败：catalog unavailable')).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: '重试' }))
+    expect(load).toHaveBeenCalledTimes(2)
+    fireEvent.click(screen.getByRole('menuitemradio', { name: 'Kimi' }))
+    expect((await screen.findByRole('alert')).textContent).toContain('images unsupported')
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+    expect(directory.getSnapshot().current).toEqual(state().current)
+    expect(document.activeElement).toBe(trigger)
+    act(() => { directory.update((snapshot) => { snapshot.pending = { provider: 'moonshotai', model: 'kimi-first' } }) })
+    expect(screen.getAllByRole('menuitemradio').every(row => row.hasAttribute('disabled'))).toBe(true)
+  })
+})
+
 describe('ModelSelect reasoning effort', () => {
   it('renders effort names without descriptions and submits the effort as part of the session selection', async () => {
     const directory = createSnapshotStore<ModelDirectoryState>(state())
@@ -240,7 +319,7 @@ describe('ModelSelect reasoning effort', () => {
       t={t}
     />)
 
-    const trigger = screen.getByRole('button', { name: /选择模型|当前/ })
+    const trigger = screen.getByRole('button', { name: /选择模型/ })
     fireEvent.click(trigger)
     fireEvent.click(screen.getByRole('menuitem', { name: /模型/ }))
     const rejected = screen.getByRole('menuitemradio', { name: /DeepSeek-V4-Pro/ })
@@ -281,7 +360,7 @@ describe('ModelSelect reasoning effort', () => {
     render(<ModelSelect locked={false} available directory={directory} load={vi.fn()} select={select} t={t} />)
     const spinners = () => document.querySelectorAll('[data-state="ongoing"]')
 
-    const trigger = screen.getByRole('button', { name: /选择模型|当前/ })
+    const trigger = screen.getByRole('button', { name: /选择模型/ })
     fireEvent.click(trigger)
     fireEvent.click(screen.getByRole('menuitem', { name: /模型/ }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: /DeepSeek-V4-Pro/ }))
@@ -309,7 +388,7 @@ describe('ModelSelect reasoning effort', () => {
     })
     render(<ModelSelect locked={false} available directory={directory} load={vi.fn()} select={select} t={t} />)
 
-    fireEvent.click(screen.getByRole('button', { name: /选择模型|当前/ }))
+    fireEvent.click(screen.getByRole('button', { name: /选择模型/ }))
     fireEvent.click(screen.getByRole('menuitem', { name: /推理等级/ }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: /Max/ }))
     expect(screen.getAllByRole('menuitemradio')
@@ -747,13 +826,12 @@ describe('ModelSelect search', () => {
     expect(trigger.hasAttribute('data-selection-focus')).toBe(false)
   })
 
-  it.each(['Enter', 'Tab'])('keeps typing focus while arrows wrap across groups and %s accepts the highlight', async (key) => {
+  it.each(['Enter', 'Tab'])('keeps typing focus while arrows wrap within the selected provider and %s accepts the highlight', async (key) => {
     const select = vi.fn().mockResolvedValue({ ok: true, value: undefined })
     const directory = createSnapshotStore(state({
       current: { provider: 'deepseek-official', model: 'beta' },
       groups: [
-        { id: 'deepseek-official', name: 'DeepSeek', models: [{ id: 'alpha', name: 'Alpha' }, { id: 'beta', name: 'Beta' }] },
-        { id: 'other', name: 'Other', models: [
+        { id: 'deepseek-official', name: 'DeepSeek', models: [{ id: 'alpha', name: 'Alpha' }, { id: 'beta', name: 'Beta' },
           { id: 'delta', name: 'Delta' }, { id: 'epsilon', name: 'Epsilon' }, { id: 'gamma', name: 'Gamma' },
         ] },
       ],
@@ -797,7 +875,7 @@ describe('ModelSelect search', () => {
     expect(search.getAttribute('aria-activedescendant')).toBe(restored[4]!.id)
     expect(document.activeElement).toBe(search)
     fireEvent.keyDown(search, { key })
-    expect(select).toHaveBeenCalledWith({ provider: 'other', model: 'gamma' })
+    expect(select).toHaveBeenCalledWith({ provider: 'deepseek-official', model: 'gamma' })
     await waitFor(() => { expect(screen.queryByRole('group', { name: '模型与推理等级' })).toBeNull() })
     const trigger = screen.getByRole('button', { name: /选择模型/ })
     await waitFor(() => { expect(document.activeElement).toBe(trigger) })
@@ -805,9 +883,9 @@ describe('ModelSelect search', () => {
   })
 
   it('filters model names fuzzily, hides empty groups, clears on reopening, and selects a result', async () => {
-    const directory = createSnapshotStore(state({ groups: [
-      ...modelGroups(4),
-      { id: 'other', name: 'Other', models: [{ id: 'gemini', name: 'Gemini Flash' }] },
+    const directory = createSnapshotStore(state({ current: { provider: 'other', model: 'deepseek-v4-flash' }, groups: [
+      ...modelGroups(5),
+      { id: 'other', name: 'Other', models: [{ id: 'gemini', name: 'Gemini Flash' }, ...modelGroups(4)[0]!.models] },
     ] }))
     const select = vi.fn().mockResolvedValue({ ok: true, value: undefined })
     render(<ModelSelect locked={false} available directory={directory} load={vi.fn()} select={select} t={t} />)

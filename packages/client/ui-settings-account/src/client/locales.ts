@@ -1,5 +1,5 @@
 /** Account settings copy, owned by the account feature. */
-import { onboardingCopy, onboardingEnglishCopy } from './locales/onboarding.ts'
+import { onboardingSpanishCopy, onboardingCopy, onboardingEnglishCopy } from './locales/onboarding.ts'
 
 /** English account dictionary. */
 export const en = {
@@ -35,6 +35,66 @@ export const en = {
   quotaTopUp: 'Top up',
   bonusNoticeTitle: 'Bonus credited',
 } as const
+
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'modelSignInRequired': 'Modelo no disponible. Inicia sesión e inténtalo de nuevo.',
+  'sessionExpired': 'Cerraste la sesión de tu cuenta; vuelve a iniciar sesión.',
+  'close': 'Cerrar',
+  'addApiKey': 'Agregar clave API',
+  'retry': 'Volver a iniciar sesión',
+  'loginTitle': 'Comenzar',
+  'loginDescription': 'Inicia sesión en tu cuenta de DeepSeek o agrega una clave API para comenzar. Tus proyectos y archivos se guardan localmente.',
+  'browserTitle': 'Esperando inicio de sesión',
+  'browserPrompt': '¿La página no se abrió automáticamente? ',
+  'copyLink': 'Copiar enlace de inicio de sesión',
+  'copiedLink': 'Enlace copiado',
+  'copyFailed': 'No se pudo copiar',
+  'browserDescription': ', luego ábrelo en tu navegador para completar el inicio de sesión.',
+  'timeoutTitle': 'Se agotó el tiempo para iniciar sesión',
+  'timeoutDescription': 'Vuelve a iniciar sesión para continuar.',
+  'failureTitle': 'No se pudo iniciar sesión',
+  'platformFailed': 'No se pudo completar la operación. Inténtalo de nuevo.',
+  'platformRetry': 'Reintentar',
+  'loading': 'Cargando…',
+  'backToHarness': 'Volver a Karimbata Harness',
+  'settings': 'Configuración',
+  'contactUs': 'Comentarios',
+  'menu': 'Menú de cuenta',
+  'nav': 'Cuenta',
+  'signedIn': 'Sesión iniciada en DeepSeek',
+  'signedOut': 'Sin sesión iniciada',
+  'signIn': 'Iniciar sesión',
+  'signOut': 'Cerrar sesión',
+  'signOutUnknownDescription': 'No se pudieron comprobar las tareas en ejecución. Cerrar sesión podría interrumpir las tareas que usan esta cuenta. ¿Cerrar sesión ahora?',
+  'signOutDescription': 'Cerrar sesión no eliminará ningún dato. Puedes volver a iniciar sesión en esta cuenta.',
+  'signOutRunningDescription': 'Hay tareas en ejecución. Cerrar sesión las interrumpirá. ¿Cerrar sesión ahora?',
+  'cancel': 'Cancelar',
+  'open': 'Abrir navegador',
+  'initializing': 'Iniciando sesión…',
+  'waiting': 'Continúa en tu navegador',
+  'completing': 'Completando inicio de sesión…',
+  'expired': 'El inicio de sesión venció. Inténtalo de nuevo.',
+  'failed': 'No se pudo completar la operación. Inténtalo de nuevo.',
+  'noResponse': 'Ocurrió un error. Revisa tu conexión de red e inténtalo de nuevo.',
+  'settingsSignedOutTitle': 'No has iniciado sesión en Karimbata Harness',
+  'settingsSignedOutDescription': 'Inicia sesión en Karimbata Harness para obtener tu clave API',
+  'signInDescription': 'Usa tu cuenta de DeepSeek para comenzar.',
+  'profileUnavailable': 'Los detalles de la cuenta todavía no están disponibles.',
+  'balance': 'Saldo recargado',
+  'bonusBalance': 'Saldo otorgado',
+  'balanceUnavailable': 'Ver en la plataforma',
+  'balanceSignedOut': 'Inicia sesión para ver',
+  'accountInfo': 'Más información de la cuenta',
+  'more': 'Más',
+  'usage': 'Ver uso',
+  'topUp': 'Recargar',
+  'quotaTitle': 'Sin saldo disponible',
+  'quotaDescription': 'Karimbata Harness no puede iniciar una tarea nueva con esta cuenta si no hay saldo disponible. ¿Quieres recargar? También puedes hacerlo más tarde en Configuración → Cuenta.',
+  'quotaTopUp': 'Recargar',
+  'bonusNoticeTitle': 'Bonificación acreditada',
+  ...onboardingSpanishCopy,
+} satisfies Record<keyof typeof en, string>
 /** Account locale keys. */
 export type AccountKey = keyof typeof en
 /** Chinese account settings copy. */

@@ -1,4 +1,4 @@
-import { zoomEn, zoomZh } from '../zoom/locales.ts'
+import { zoomEs, zoomEn, zoomZh } from '../zoom/locales.ts'
 
 /** Copy owned by the PDF renderer. */
 export const zh = {
@@ -30,6 +30,20 @@ export const en = {
   unsupported: 'PDF preview requires the complete file contents.',
   retry: 'Retry',
 } satisfies Record<PdfLocaleKey, string>
+
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'title': 'PDF',
+  'pageImage': 'Página PDF {page}',
+  'loading': 'Renderizando documento...',
+  'rendering': 'Renderizando página…',
+  'failed': 'No se puede mostrar el PDF: {message}',
+  'password': 'Este PDF requiere una contraseña; no se admiten vistas previas de archivos protegidos por contraseña.',
+  'workerFailed': 'El proceso de renderizado del PDF no pudo continuar. Reintenta.',
+  'unsupported': 'La vista previa de PDF requiere el contenido completo del archivo.',
+  'retry': 'Reintentar',
+  ...zoomEs,
+} satisfies Record<keyof typeof en, string>
 
 declare module '@deepseek-ai/dsh-client-ui-slots' {
   interface LocaleNamespaceMap {

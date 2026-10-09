@@ -1,6 +1,8 @@
 /**
  * ModelSelect: the composer's named model seat (`conversation.input.model`).
- * Two-level selection per figma 496:26454's MenuDropdown: the root menu is
+ * Provider selection applies that provider's first available model and default
+ * effort. The model menu filters to the current provider when that provider
+ * is in the directory. The root menu is
  * the Model / Effort row pair (label + current value + a right chevron),
  * each drilling into its own list — the provider-grouped model list over
  * the shared directory, and the effort levels. The trigger (313:14108's
@@ -35,15 +37,15 @@ import clsx from 'clsx'
 import type { ModelReasoningEffort, ModelSelection } from '@deepseek-ai/dsh-api-remotes/client'
 import {
   IconCheckOutlineRegular, IconChevronDownOutlineRegular, IconChevronRightOutlineRegular, IconCloseFillRegular,
-  IconDataOutlineRegular, IconWarningOutlineRegular, Input, rankByName, StateDot, Toast,
+  IconDataOutlineRegular, IconGlobeOutlineRegular, IconWarningOutlineRegular, Input, rankByName, StateDot, Toast,
 } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { PropsLocale } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ModelSelectInjected } from './slots.ts'
 import css from './ModelSelect.module.css'
 import { orderModelProviders } from './provider-order.ts'
 
-/** Which pane the dropdown shows: the two-row root or one drilled-in list. */
-type Pane = 'root' | 'model' | 'effort'
+/** Provider list, the two-row root, or a model or effort list. */
+type Pane = 'root' | 'provider' | 'model' | 'effort'
 
 /** One dynamic effort row; undefined means preserve the provider default. */
 interface EffortChoice {
@@ -59,7 +61,7 @@ const MEASURE_STYLE: CSSProperties = { visibility: 'hidden', left: 0, top: 0 }
  * Render the composer model seat.
  * @param props - owner share (locked) + injected face (shared directory
  * store/verbs) + the standard locale seat.
- * @returns the trigger and, while open, the two-level menu.
+ * @returns provider and model triggers with their shared menu.
  */
 export function ModelSelect(
   { locked, available, directory, load, select, t }:
@@ -83,6 +85,7 @@ export function ModelSelect(
   const toastSeq = useRef(0)
   const rootRef = useRef<HTMLDivElement | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
+  const providerTriggerRef = useRef<HTMLButtonElement | null>(null)
   const searchRef = useRef<HTMLInputElement | null>(null)
   const menuRef = useRef<HTMLDivElement | null>(null)
   const groupsRef = useRef<HTMLDivElement | null>(null)
@@ -103,10 +106,14 @@ export function ModelSelect(
           : { reasoningEffort: model.reasoning.defaultEffort },
       } satisfies ModelSelection,
     }))), [groups])
-  const showSearch = choices.length > 4
-  const filteredGroups = useMemo(() => groups.map(group => ({
+  const currentProvider = groups.find(group => group.id === state.current?.provider)
+  const modelGroups = useMemo(() => currentProvider === undefined
+    ? groups
+    : [currentProvider], [groups, currentProvider])
+  const showSearch = modelGroups.reduce((count, group) => count + group.models.length, 0) > 4
+  const filteredGroups = useMemo(() => modelGroups.map(group => ({
     ...group, models: rankByName(group.models, showSearch ? query.trim() : ''),
-  })).filter(group => group.models.length > 0), [groups, query, showSearch])
+  })).filter(group => group.models.length > 0), [modelGroups, query, showSearch])
   const visibleModels = useMemo(() => filteredGroups.flatMap(group => group.models.map(model => ({
     provider: group.id, model: model.id,
   }))), [filteredGroups])
@@ -186,7 +193,7 @@ export function ModelSelect(
       const target = checked ?? itemRefs.current.find(item => item !== null && !item.disabled)
       // Rows a selection in flight disabled cannot take the keyboard; the
       // trigger does, so the card's keys still reach the menu.
-      ;(target ?? triggerRef.current)?.focus()
+      ;(target ?? (pane === 'provider' ? providerTriggerRef : triggerRef).current)?.focus()
       return
     }
     const cell = itemRefs.current[intent === 'effort' ? 1 : 0]
@@ -216,7 +223,7 @@ export function ModelSelect(
     if (!open) { setMenuPos(null); return }
     const place = (): void => {
       /* v8 ignore next 2 -- the trigger ref is attached whenever the menu is open. */
-      const rect = triggerRef.current?.getBoundingClientRect()
+      const rect = (pane === 'provider' ? providerTriggerRef : triggerRef).current?.getBoundingClientRect()
       if (rect === undefined) return
       const MARGIN = 12
       const lw = menuRef.current?.offsetWidth ?? 0
@@ -252,15 +259,25 @@ export function ModelSelect(
     reload()
   }
 
+  const showProviders = (): void => {
+    setSelectionFocus(false)
+    providerTriggerRef.current?.focus()
+    paneFocus.current = 'drill'
+    setPane('provider')
+    setOpen(true)
+    reload()
+  }
+
   const changeQuery = (next: string): void => {
     setQuery(next)
     setHighlightedIndex(0)
   }
 
   const close = (restoreFocus = false): void => {
+    const trigger = pane === 'provider' ? providerTriggerRef.current : triggerRef.current
     setOpen(false)
     setPane('root')
-    if (restoreFocus) queueMicrotask(() => { triggerRef.current?.focus() })
+    if (restoreFocus) queueMicrotask(() => { trigger?.focus() })
   }
 
   const closeAfterSelection = (): void => {
@@ -276,7 +293,7 @@ export function ModelSelect(
   }
 
   /** Leave a drilled pane for the root one, handing the keyboard back to its cell. */
-  const back = (from: Exclude<Pane, 'root'>): void => {
+  const back = (from: 'model' | 'effort'): void => {
     paneFocus.current = from
     setPane('root')
   }
@@ -299,7 +316,7 @@ export function ModelSelect(
     if (event.key === 'Escape' && open) {
       event.preventDefault()
       // Escape backs out of a drilled pane first, then closes.
-      if (pane !== 'root' && currentChoice !== undefined) back(pane)
+      if ((pane === 'model' || pane === 'effort') && currentChoice !== undefined) back(pane)
       else close(true)
       return
     }
@@ -327,7 +344,7 @@ export function ModelSelect(
     if (event.key === 'Tab') {
       if (event.shiftKey) {
         event.preventDefault()
-        if (pane !== 'root' && currentChoice !== undefined) back(pane)
+        if ((pane === 'model' || pane === 'effort') && currentChoice !== undefined) back(pane)
         else close(true)
         return
       }
@@ -342,7 +359,7 @@ export function ModelSelect(
         focused.click()
         return
       }
-      if (focused !== triggerRef.current) return
+      if (focused !== triggerRef.current && focused !== providerTriggerRef.current) return
       event.preventDefault()
       if (pane === 'model' && showSearch) {
         setHighlightedIndex(null)
@@ -387,7 +404,7 @@ export function ModelSelect(
     lastActionRef.current = 'select'
     // Disabled option rows cannot retain focus while a selection is pending.
     setSelectionFocus(true)
-    triggerRef.current?.focus()
+    ;(pane === 'provider' ? providerTriggerRef : triggerRef).current?.focus()
     void select(selection).then(settleSelection)
   }
 
@@ -397,6 +414,15 @@ export function ModelSelect(
       return
     }
     submit(selection)
+  }
+
+  const chooseProvider = (provider: string): void => {
+    if (provider === state.current?.provider && currentChoice !== undefined) {
+      closeAfterSelection()
+      return
+    }
+    const first = choices.find(choice => choice.selection.provider === provider)
+    if (first !== undefined) submit(first.selection)
   }
 
   const chooseEffort = (effort: string | undefined): void => {
@@ -426,6 +452,9 @@ export function ModelSelect(
       : effortLabel === undefined
         ? t('trigger.aria', { model: modelLabel })
         : t('trigger.ariaEffort', { model: modelLabel, effort: effortLabel })
+  const providerLabel = currentProvider?.id === 'deepseek-account'
+    ? t('provider.account')
+    : currentProvider?.name ?? t('provider.select')
   itemRefs.current = []
   let itemIndex = 0
   let modelIndex = 0
@@ -446,20 +475,44 @@ export function ModelSelect(
       }}
     >
       <button
+        ref={providerTriggerRef}
+        type="button"
+        className={css.trigger}
+        aria-label={currentProvider === undefined ? t('provider.select') : t('provider.aria', { provider: providerLabel })}
+        aria-haspopup="menu"
+        aria-expanded={open && pane === 'provider'}
+        aria-controls={open && pane === 'provider' ? `${id}-menu` : undefined}
+        title={t('provider.aria', { provider: providerLabel })}
+        aria-busy={busy}
+        data-selection-focus={selectionFocus ? '' : undefined}
+        onBlur={() => { setSelectionFocus(false) }}
+        disabled={locked}
+        onClick={() => {
+          if (open && pane === 'provider') close(true)
+          else showProviders()
+        }}
+      >
+        <IconGlobeOutlineRegular className={css.triggerIcon} size={16} />
+        <span className={css.triggerLabel}>{providerLabel}</span>
+        {busy && pane === 'provider'
+          ? <StateDot state="ongoing" />
+          : <IconChevronDownOutlineRegular className={clsx(css.chevron, open && pane === 'provider' && css.chevronOpen)} />}
+      </button>
+      <button
         ref={triggerRef}
         type="button"
         className={css.trigger}
         aria-label={triggerAria}
         aria-haspopup="menu"
-        aria-expanded={open}
-        aria-controls={open ? `${id}-menu` : undefined}
+        aria-expanded={open && pane !== 'provider'}
+        aria-controls={open && pane !== 'provider' ? `${id}-menu` : undefined}
         title={triggerLabel}
         aria-busy={busy}
         data-selection-focus={selectionFocus ? '' : undefined}
         onBlur={() => { setSelectionFocus(false) }}
         disabled={locked}
         onClick={() => {
-          if (open) {
+          if (open && pane !== 'provider') {
             close(true)
           } else {
             show()
@@ -469,9 +522,9 @@ export function ModelSelect(
         <IconDataOutlineRegular className={css.triggerIcon} size={16} />
         <span className={css.triggerLabel}>{modelLabel}</span>
         {effortLabel !== undefined && <span className={css.triggerEffort}>{effortLabel}</span>}
-        {busy
+        {busy && pane !== 'provider'
           ? <StateDot state="ongoing" />
-          : <IconChevronDownOutlineRegular className={clsx(css.chevron, open && css.chevronOpen)} />}
+          : <IconChevronDownOutlineRegular className={clsx(css.chevron, open && pane !== 'provider' && css.chevronOpen)} />}
       </button>
 
       {/* Portaled to body (Menu primitive's portal mode) so the sidebar and
@@ -484,9 +537,38 @@ export function ModelSelect(
           className={css.menu}
           style={menuPos ?? MEASURE_STYLE}
           role={pane === 'model' ? 'group' : 'menu'}
-          aria-label={t('menu.aria')}
+          aria-label={t(pane === 'provider' ? 'menu.provider' : 'menu.aria')}
           aria-busy={state.status === 'loading' || busy}
         >
+          {(pane === 'provider' || pane === 'model') && <>
+            {state.status === 'loading' && <div className={css.status}>{t('status.loading')}</div>}
+            {state.error !== null && lastActionRef.current === 'load' && <div className={css.error}>
+              <span>{t('error.action', { message: state.error })}</span>
+              <button type="button" className={css.retry} onClick={reload}>{t('retry')}</button>
+            </div>}
+            {state.failures.map(failure => <div className={css.warning} key={failure.id}>
+              <span>{t('warning.groupLoad', { name: failure.id === 'deepseek-account' ? t('provider.account') : failure.name, message: failure.message })}</span>
+              <button type="button" className={css.retry} onClick={reload}>{t('retry')}</button>
+            </div>)}
+          </>}
+          {pane === 'provider' && <>
+            {groups.filter(group => group.models.length > 0).map(group => <button
+              ref={itemRef()}
+              type="button"
+              role="menuitemradio"
+              aria-checked={group.id === state.current?.provider}
+              className={clsx(css.option, group.id === state.current?.provider && css.selected)}
+              key={group.id}
+              disabled={busy}
+              onClick={() => { chooseProvider(group.id) }}
+            >
+              <span className={css.optionCopy}><span className={css.modelName}>{group.id === 'deepseek-account' ? t('provider.account') : group.name}</span></span>
+              <span className={css.check}>{pending?.provider === group.id
+                ? <StateDot state="ongoing" />
+                : group.id === state.current?.provider ? <IconCheckOutlineRegular /> : null}</span>
+            </button>)}
+            {state.status === 'ready' && choices.length === 0 && <div className={css.empty} role="status">{t('empty.providers')}</div>}
+          </>}
           {pane === 'root' && (
             <>
               <button ref={itemRef()} type="button" role="menuitem" className={css.cell} onClick={() => { drill('model') }}>
@@ -535,21 +617,6 @@ export function ModelSelect(
                   </button>
                 )}
               </div>}
-              {state.status === 'loading' && (
-                <div className={css.status}>{t('status.loading')}</div>
-              )}
-              {state.error !== null && lastActionRef.current === 'load' && (
-                <div className={css.error}>
-                  <span>{t('error.action', { message: state.error })}</span>
-                  <button type="button" className={css.retry} onClick={reload}>{t('retry')}</button>
-                </div>
-              )}
-              {state.failures.map(failure => (
-                <div className={css.warning} key={failure.id}>
-                  <span>{t('warning.groupLoad', { name: failure.id === 'deepseek-account' ? t('provider.account') : failure.name, message: failure.message })}</span>
-                  <button type="button" className={css.retry} onClick={reload}>{t('retry')}</button>
-                </div>
-              ))}
               <div
                 ref={groupsRef}
                 id={`${id}-models`}
@@ -602,7 +669,7 @@ export function ModelSelect(
                 })}
               </div>
               {state.status === 'ready' && filteredGroups.length === 0 && (
-                <div className={css.empty} role="status">{t(choices.length === 0 ? 'empty.models' : 'search.empty')}</div>
+                <div className={css.empty} role="status">{t(modelGroups.every(group => group.models.length === 0) ? 'empty.models' : 'search.empty')}</div>
               )}
             </>
           )}

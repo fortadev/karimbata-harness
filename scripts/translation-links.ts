@@ -60,7 +60,16 @@ interface Replacement {
 
 type LinkNode = Extract<Nodes, { type: 'link' | 'definition' }>
 
-/** Offset of the one top-level switcher link immediately following the H1. */
+const languageSwitcherPattern =
+  /^(?:(?:English|Español \(Latinoamérica\)) \| \[中文\]\([^\n]+\)|\[(?:English|Español \(Latinoamérica\))\]\([^\n]+\) \| 中文)$/
+
+/**
+ * Offset of the top-level English/Chinese or Latin American Spanish/Chinese switcher link.
+ * @param tree - Parsed document whose first H1 precedes the switcher.
+ * @param markdown - Source text used to match the complete switcher paragraph.
+ * @param acceptedTargets - Counterpart destinations permitted for this document.
+ * @returns The switcher link's source offset, or undefined when none matches.
+ */
 export function languageSwitcherLinkOffset(
   tree: Nodes,
   markdown: string,
@@ -77,7 +86,7 @@ export function languageSwitcherLinkOffset(
     const end = node.position.end.offset
     if (start === undefined || end === undefined) continue
     const authored = markdown.slice(start, end)
-    if (!/^(?:English \| \[中文\]\([^\n]+\)|\[English\]\([^\n]+\) \| 中文)$/.test(authored)) continue
+    if (!languageSwitcherPattern.test(authored)) continue
     const links = node.children.filter((child): child is Extract<Nodes, { type: 'link' }> => child.type === 'link')
     if (links.length === 1 && accepted.has(links[0]?.url ?? '')) {
       return links[0]?.position?.start.offset

@@ -61,6 +61,36 @@ export const en = {
   'address.unknown': 'The page navigated; this carrier cannot read its new URL.',
 } satisfies Record<SidebarBrowserKey, string>
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'type.label': 'Navegador',
+  'guide.title': 'Navegador',
+  'guide.description': 'Explorar páginas web',
+  'shortcut.noSession': 'Primero abre una sesión',
+  'address.placeholder': 'Ingresa una dirección HTTP(S)',
+  'address.changed': 'La URL cambió',
+  'back': 'Volver',
+  'forward': 'Adelante',
+  'reload': 'Recargar',
+  'go': 'Ir',
+  'external': 'Abrir en el navegador del sistema',
+  'sandbox.disable': 'Desactivar restricciones de sandbox',
+  'sandbox.enable': 'Restablecer restricciones de sandbox',
+  'sandbox.warning': 'Las restricciones de sandbox están desactivadas; la página puede navegar por la aplicación principal y usar descargas, diálogos e inmovilización de entrada.',
+  'start': 'Ingresa una dirección HTTP(S) para comenzar a navegar',
+  'loading': 'Abriendo…',
+  'restore.previous': 'Abierto anteriormente',
+  'restore.action': 'Restaurar página',
+  'error.empty': 'Ingresa una dirección.',
+  'error.invalid': 'Esa dirección no es válida o es demasiado larga.',
+  'error.protocol': 'Solo se admiten direcciones HTTP y HTTPS; usa Vista previa de documentos para archivos locales.',
+  'error.credentials': 'Las direcciones no pueden contener un nombre de usuario ni una contraseña.',
+  'error.application-origin': 'El navegador integrado no puede abrir la propia aplicación DSH.',
+  'load.failed': 'La página no pudo cargarse; recárgala o ábrela en el navegador del sistema.',
+  'load.failed.detail': 'La carga de la página falló ({code}): {description}',
+  'address.unknown': 'La página navegó a otra dirección; este contenedor no puede leer su nueva URL.',
+} satisfies Record<keyof typeof en, string>
+
 declare module '@deepseek-ai/dsh-client-ui-slots' {
   interface LocaleNamespaceMap {
     /** Sidebar Browser labels, navigation controls, and failures. */

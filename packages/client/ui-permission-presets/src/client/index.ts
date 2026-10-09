@@ -40,7 +40,7 @@ import { PermissionSelect } from './PermissionSelect.tsx'
 import type { PermissionSelectInjected } from './PermissionSelect.tsx'
 import { PermissionRow } from './PermissionRow.tsx'
 import type { PermissionRowInjected } from './PermissionRow.tsx'
-import {
+import { es, accessEs,
   accessEn, accessZh, en, PERMISSION_ACCESS_NS, zh,
 } from './locales.ts'
 import {
@@ -114,7 +114,7 @@ export function apply(ctx: ClientContext): void {
   const command = ctx.get('commandUi') as CommandUiContract
   const sessions = ctx.sessions
   ctx.effect(
-    () => ctx.locale.register(PERMISSION_ACCESS_NS, { zh: accessZh, en: accessEn }),
+    () => ctx.locale.register(PERMISSION_ACCESS_NS, { 'es-419': accessEs, zh: accessZh, en: accessEn }),
     'ui-permission: current-session dictionaries',
   )
   const t = ctx.locale.bind(PERMISSION_ACCESS_NS)
@@ -141,7 +141,7 @@ export function apply(ctx: ClientContext): void {
     'ui-permission: dismiss stale slash choices',
   )
 
-  ctx.effect(() => ctx.locale.register('settings.permission', { zh, en }), 'ui-permission: settings row dictionaries')
+  ctx.effect(() => ctx.locale.register('settings.permission', { 'es-419': es, zh, en }), 'ui-permission: settings row dictionaries')
 
   // The shared ConfigForm mirror updates after document commits and reconnects.
   const controller = new PermissionPresetSettingsController(

@@ -32,6 +32,28 @@ export const en: Record<WebSearchSettingsLocaleKey, string> = {
   invalidNumber: 'Enter a number, or leave blank to use the default.',
 }
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'title': 'Búsqueda web',
+  'description': 'Configura el proveedor de búsqueda de DeepSeek.',
+  'apiKey': 'Clave API',
+  'apiKeyHint': 'Se guarda fuera del archivo de configuración. Deja el campo vacío para conservar la clave actual.',
+  'apiKeySet': 'Hay una clave configurada.',
+  'apiKeyUnset': 'No hay una clave configurada; solo las conversaciones que usan un modelo de cuenta de DeepSeek pueden buscar, mediante el destino predeterminado.',
+  'baseUrl': 'Destino',
+  'baseUrlHint': 'Deja el campo vacío para usar el valor predeterminado del proveedor.',
+  'maxUses': 'Máximo de búsquedas por solicitud',
+  'maxUsesHint': 'Cuántas búsquedas puede realizar una solicitud antes de tener que responder.',
+  'overridden': 'Reemplazado',
+  'reset': 'Restablecer valor predeterminado',
+  'readOnly': 'Esta implementación guarda la configuración en modo de solo lectura.',
+  'unavailable': 'Este plugin no está cargado, por lo que no se puede configurar ahora.',
+  'save': 'Guardar',
+  'saving': 'Guardando…',
+  'saveFailed': 'La implementación no aceptó estos valores; se conservaron para que puedas corregirlos.',
+  'invalidNumber': 'Ingresa un número o deja el campo vacío para usar el valor predeterminado.',
+} satisfies Record<keyof typeof en, string>
+
 /** Simplified Chinese copy. */
 export const zh: Record<WebSearchSettingsLocaleKey, string> = {
   title: '网页搜索',

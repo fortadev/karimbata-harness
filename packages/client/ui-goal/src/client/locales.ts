@@ -34,3 +34,19 @@ export const en = {
   'action.edit': 'Edit goal',
   'action.clear': 'Clear goal',
 } satisfies Record<GoalKey, string>
+
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'phase.active': 'Objetivo en curso',
+  'phase.active.disarmed': 'Objetivo inactivo',
+  'phase.paused': 'Objetivo pausado',
+  'phase.blocked': 'Objetivo bloqueado',
+  'objective.aria': 'Descripción del objetivo',
+  'commandInput.aria': 'Entrada de comando',
+  'action.save': 'Guardar objetivo',
+  'action.cancel': 'Cancelar edición',
+  'action.pause': 'Pausar objetivo',
+  'action.resume': 'Reanudar objetivo',
+  'action.edit': 'Editar objetivo',
+  'action.clear': 'Borrar objetivo',
+} satisfies Record<keyof typeof en, string>

@@ -136,6 +136,21 @@ describe('FishLogo', () => {
   })
 })
 
+describe('KarimbataLogo', () => {
+  it('renders a decorative square mark at its host-requested size', () => {
+    const view = render(<primitives.KarimbataLogo />)
+    const svg = view.container.querySelector('svg')!
+    expect(svg.getAttribute('width')).toBe('24')
+    expect(svg.getAttribute('height')).toBe('24')
+    expect(svg.getAttribute('aria-hidden')).toBe('true')
+    expect(svg.querySelectorAll('path')).toHaveLength(2)
+    view.rerender(<primitives.KarimbataLogo size={34} className="placement" />)
+    expect(svg.getAttribute('width')).toBe('34')
+    expect(svg.getAttribute('height')).toBe('34')
+    expect(svg.getAttribute('class')).toBe('placement')
+  })
+})
+
 describe('BrandWordmark', () => {
   it('can render the name artwork with or without its leading mark', () => {
     const view = render(<primitives.BrandWordmark />)

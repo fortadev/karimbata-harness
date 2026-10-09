@@ -38,3 +38,22 @@ export const en = {
   busy: 'Office preview is busy. Try again shortly.',
   changed: 'The file changed while being read. Reopen the preview.',
 } satisfies Record<OfficePreviewKey, string>
+
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'title': 'Documento de Office',
+  'loading': 'Renderizando documento...',
+  'retry': 'Reintentar',
+  'viewMissingFonts': 'Fuentes faltantes: {count}. Haz clic para verlas.',
+  'missingFontsTitle': 'Fuentes faltantes',
+  'missingFontsDescription': 'Estas fuentes no están disponibles en esta vista previa. El texto y el diseño pueden diferir del documento original.',
+  'missingFontsCount': 'Fuentes: {count}',
+  'closeDetails': 'Cerrar detalles de fuentes',
+  'unavailable': 'Las vistas previas de Office no están disponibles. Activa el servicio de vista previa de documentos en la computadora que ejecuta Karimbata Harness.',
+  'invalid': 'No se puede obtener una vista previa de este archivo de Office. Puede estar dañado, protegido por contraseña o tener una extensión incorrecta.',
+  'tooLarge': 'El archivo de Office o el PDF convertido supera el límite de tamaño de vista previa. Reduce el tamaño del archivo o ajusta la configuración de vista previa.',
+  'failed': 'La conversión de Office no generó un PDF utilizable. Revisa el archivo e inténtalo de nuevo.',
+  'timeout': 'Se agotó el tiempo de conversión de Office. Inténtalo de nuevo.',
+  'busy': 'La vista previa de Office está ocupada. Inténtalo en unos momentos.',
+  'changed': 'El archivo cambió mientras se leía. Vuelve a abrir la vista previa.',
+} satisfies Record<keyof typeof en, string>

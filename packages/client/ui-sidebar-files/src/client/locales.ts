@@ -62,3 +62,24 @@ export const en = {
   'error.notDirectory': 'That is not a directory.',
   'error.unavailable': 'Read failed: {message}',
 } satisfies Record<SidebarFilesKey, string>
+
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'shortcut.noSession': 'Primero selecciona una sesión',
+  'type.label': 'Archivos',
+  'guide.title': 'Archivos del espacio de trabajo',
+  'guide.description': 'Explorar archivos del espacio de trabajo de esta sesión',
+  'loading': 'Leyendo…',
+  'empty': 'Directorio vacío',
+  'truncated': 'Hay demasiadas entradas; solo se muestran algunas.',
+  'noWorkspace': 'Esta sesión no tiene un directorio de trabajo.',
+  'reload': 'Recargar',
+  'autoRefresh': 'Actualización automática',
+  'autoRefresh.enable': 'Activar actualización automática',
+  'autoRefresh.disable': 'Desactivar actualización automática',
+  'entry.other': 'No es un archivo ni un directorio, por lo que no se puede abrir.',
+  'error.notFound': 'Ese directorio ya no existe. Es posible que se haya movido o eliminado.',
+  'error.outsideWorkspace': 'Ese directorio está fuera del espacio de trabajo, por lo que la barra lateral no lo leerá.',
+  'error.notDirectory': 'Eso no es un directorio.',
+  'error.unavailable': 'La lectura falló: {message}',
+} satisfies Record<keyof typeof en, string>

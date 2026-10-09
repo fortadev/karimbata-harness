@@ -98,6 +98,21 @@ describe('document language', () => {
     expect(langOf()).toBe('pt-BR')
   })
 
+  it('restores Spanish from the Host preference and updates the document language', async () => {
+    const { ctx, locale } = await bench('es-419')
+    try {
+      await vi.waitFor(() => { expect(locale.getLocale().active).toBe('es-419') })
+      expect(langOf()).toBe('es-419')
+      expect(locale.bind('common')('retry')).toBe('Reintentar')
+      expect(locale.bind('settings.locale')('language.title')).toBe('Idioma')
+      locale.setLocale('en')
+      expect(langOf()).toBe('en')
+      expect(locale.bind('common')('retry')).toBe('Retry')
+    } finally {
+      await ctx.fiber.dispose()
+    }
+  })
+
   it('does not rewrite the document language for catalog changes with the same active locale', async () => {
     const { locale } = await bench()
     const observer = new MutationObserver(() => {})

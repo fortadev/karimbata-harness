@@ -16,6 +16,15 @@ export const en: Record<keyof typeof zh, string> = {
   frameTitle: 'NodeJS Inspector',
 }
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'title': 'Inspector de NodeJS',
+  'toggle': 'Mostrar u ocultar inspector de NodeJS',
+  'close': 'Contraer',
+  'resize': 'Cambiar tamaño del panel del inspector de NodeJS',
+  'frameTitle': 'Inspector de NodeJS',
+} satisfies Record<keyof typeof en, string>
+
 declare module '@deepseek-ai/dsh-client-ui-slots' {
   interface LocaleNamespaceMap {
     /** Shared Inspector frontend copy. */

@@ -85,6 +85,11 @@ describe.each(MODE === 'record' ? ['deepseek-official'] : ['deepseek-official', 
   }
 
   async function selectModel(name: string): Promise<void> {
+    const provider = page.getByRole('button', { name: /^AI provider, current/ })
+    const providerName = name === 'Feedback mock' ? 'Feedback mock' : 'DeepSeek'
+    await provider.click()
+    await page.getByRole('menuitemradio', { name: providerName, exact: true }).click()
+    await expect.poll(() => provider.getAttribute('aria-expanded')).toBe('false')
     const trigger = page.getByRole('button', { name: /^Select model, current/ })
     await trigger.click()
     await page.getByRole('menuitem', { name: /^Model\b/ }).click()

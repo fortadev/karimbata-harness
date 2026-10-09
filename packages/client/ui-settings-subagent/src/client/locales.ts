@@ -60,6 +60,45 @@ export const en: Record<SubagentSettingsLocaleKey, string> = {
   subagentModelSelectionOff: 'Subagents use configured defaults or inherit the parent agent\'s model. Saved model choices are retained.',
 }
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'overridden': 'Reemplazado',
+  'reset': 'Restablecer valor predeterminado',
+  'readOnly': 'Esta implementación guarda la configuración en modo de solo lectura.',
+  'unavailable': 'Este plugin no está cargado, por lo que no se puede configurar ahora.',
+  'save': 'Guardar',
+  'saving': 'Guardando…',
+  'saveFailed': 'La implementación no aceptó estos valores; se conservaron para que puedas corregirlos.',
+  'subagentTitle': 'Subagente',
+  'subagentDescription': 'Configura la profundidad de recursión, la cantidad y los modelos de los subagentes.',
+  'subagentLimitsTitle': 'Límites',
+  'subagentMaxDepth': 'Profundidad máxima de recursión',
+  'subagentDepthHelpLabel': 'Acerca de la profundidad máxima de recursión',
+  'subagentDepthHelp': 'Limita cuántos niveles de subagentes puede crear un agente.',
+  'subagentDepthZero': 'Desactivar subagentes',
+  'subagentDepthOne': 'Solo el agente principal puede crear subagentes',
+  'subagentDepthOverride': 'Si una herramienta define su propia profundidad máxima de recursión, esa configuración tiene prioridad.',
+  'subagentMaxActive': 'Límite de subagentes paralelos',
+  'subagentCapacityHelpLabel': 'Acerca del límite de subagentes paralelos',
+  'subagentCapacityHelp': 'Total de subagentes activos bajo el mismo agente principal, en todos los niveles de recursión. El agente principal no se cuenta. Las solicitudes de inicio nuevas se rechazan al alcanzar el límite.',
+  'subagentDepthInvalid': 'Ingresa un número entero de 0 o más.',
+  'subagentCapacityInvalid': 'Ingresa un número entero de 1 o más.',
+  'subagentModelSelectionTitle': 'Selección de modelos',
+  'subagentModelSelectionToggle': 'Permitir que los agentes elijan modelos para los subagentes',
+  'subagentModelSelectionChoose': 'Al activarlo, los agentes pueden elegir proveedor, modelo y esfuerzo de razonamiento para cada subagente entre los modelos autorizados a continuación. Se aplica solo a sesiones nuevas.',
+  'subagentModelSelectionAllowed': 'Modelos que pueden elegir los agentes',
+  'subagentModelSelectionLoading': 'Cargando modelos…',
+  'subagentModelSelectionLoadFailed': 'No se pudieron cargar los modelos.',
+  'subagentModelSelectionRetry': 'Reintentar',
+  'subagentModelSelectionPartial': 'Algunos proveedores de modelos no pudieron cargarse; puedes eliminar las opciones guardadas.',
+  'subagentModelSelectionUnavailable': 'No disponible actualmente',
+  'subagentModelSelectionUnavailableGroup': 'Guardado, pero no disponible actualmente',
+  'subagentModelSelectionEmpty': 'Ningún proveedor de modelos ofrece modelos actualmente.',
+  'subagentModelSelectionRequired': 'Selecciona al menos un modelo antes de guardar.',
+  'subagentModelSelectionConflict': 'La configuración cambió en otro lugar. Descarta tu borrador e inténtalo de nuevo.',
+  'subagentModelSelectionOff': 'Los subagentes usan los valores predeterminados configurados o heredan el modelo del agente principal. Se conservan las opciones de modelos guardadas.',
+} satisfies Record<keyof typeof en, string>
+
 /** Simplified Chinese copy. */
 export const zh: Record<SubagentSettingsLocaleKey, string> = {
   overridden: '已覆盖',

@@ -22,6 +22,42 @@ export const en = {
   copy: 'Copy', copied: 'Copied', codeTitle: 'Code block', wrap: 'Wrap lines', unwrap: 'Unwrap lines', footnotes: 'Footnotes',
 }
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'provider': 'Servicio de traducción',
+  'google': 'Google',
+  'bing': 'Bing',
+  'deepseekAccount': 'DeepSeek Flash — cuenta (de pago)',
+  'deepseekOfficial': 'DeepSeek Flash — API oficial (de pago)',
+  'providerUnavailableOption': '{provider} — no disponible',
+  'providerUnavailable': 'Este proveedor no está disponible. Configura tu cuenta de DeepSeek o el proveedor de la API oficial, o elige un servicio disponible.',
+  'paidNotice': 'Cada fragmento sin caché envía una solicitud de pago independiente a DeepSeek Flash usando la cuenta o las credenciales de la API oficial seleccionadas. Al volver a abrir el razonamiento se reutilizan los resultados guardados; cambiar el proveedor, idioma, texto de origen o configuración de solicitudes puede enviar una solicitud de pago nueva.',
+  'anonymousNotice': 'Bing y Google no requieren iniciar sesión ni una clave API para traducir. Sus destinos anónimos pueden rechazar o limitar solicitudes.',
+  'targetLanguage': 'Idioma de destino',
+  'targetLanguageHint': 'auto sigue el idioma de la interfaz; también funcionan códigos como zh, en y es.',
+  'privacy': 'El razonamiento expandido se envía al servicio seleccionado. Puede contener código privado o detalles de la conversación.',
+  'translation': 'Ver traducción',
+  'original': 'Ver original',
+  'retry': 'Reintentar',
+  'failed': 'La traducción falló. Se muestra el original.',
+  'translating': 'Traduciendo razonamiento',
+  'invalidProvider': 'Elige un servicio de traducción.',
+  'invalidLanguage': 'Ingresa auto o un código de idioma, como zh, en o es.',
+  'overridden': 'Reemplazado',
+  'reset': 'Restablecer valor predeterminado',
+  'unavailable': 'Las preferencias de traducción no están disponibles.',
+  'readOnly': 'Esta implementación guarda la configuración en modo de solo lectura.',
+  'saveFailed': 'La implementación no aceptó estos valores; se conservaron para que puedas corregirlos.',
+  'save': 'Guardar',
+  'saving': 'Guardando…',
+  'copy': 'Copiar',
+  'copied': 'Copiado',
+  'codeTitle': 'Bloque de código',
+  'wrap': 'Ajustar líneas',
+  'unwrap': 'Quitar ajuste de líneas',
+  'footnotes': 'Notas al pie',
+} satisfies Record<keyof typeof en, string>
+
 /** Locale dictionary key union. */
 export type CotTranslationKey = keyof typeof en
 

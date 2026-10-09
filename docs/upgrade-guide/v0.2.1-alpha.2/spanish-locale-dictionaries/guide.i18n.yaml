@@ -1,0 +1,16 @@
+# Bilingual-pair consistency record for guide.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/upgrade-guide/v0.2.1-alpha.2/spanish-locale-dictionaries/guide.md
+/:
+  en: d46cfe72772db57d
+  zh: 55835a0f53a00bfe
+/include-spanish-in-typed-client-dictionaries:
+  en: a7465d95932ea9ad
+  zh: 1d1083a0b11a2a32
+/include-spanish-in-typed-client-dictionaries/change:
+  en: 7ece38a996bbee88
+  zh: 4762b91a48217720
+/include-spanish-in-typed-client-dictionaries/migration:
+  en: f96af5404485c5ea
+  zh: 212df1824ad1912d

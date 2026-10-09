@@ -12,6 +12,15 @@ export const en: Record<PluginsSettingsLocaleKey, string> = {
   empty: 'This deployment exposes no plugin views.',
 }
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'nav': 'Plugins integrados',
+  'title': 'Plugins integrados',
+  'intro': 'Inspecciona los plugins incluidos en esta implementación.',
+  'tabs': 'Vistas de plugins',
+  'empty': 'Esta implementación no expone vistas de plugins.',
+} satisfies Record<keyof typeof en, string>
+
 /** Simplified Chinese copy. */
 export const zh: Record<PluginsSettingsLocaleKey, string> = {
   nav: '内置插件',

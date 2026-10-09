@@ -1,64 +1,90 @@
-# DeepSeek Harness
+# Karimbata Harness
 
-English | [中文](README.zh.md)
+Español (Latinoamérica) | [中文](README.zh.md)
 
-DeepSeek Harness (`dsh`) is an open-source agent harness developed by [DeepSeek AI](https://deepseek.com).
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="apps/desktop/resources/karimbata-logo-dark.svg">
+  <img src="apps/desktop/resources/karimbata-logo.svg" alt="Logo del Grupo Karimbatá" width="120">
+</picture>
 
-It is built on an **everything-is-a-plugin** architecture and powered by [Cordis](https://github.com/cordiverse/cordis), whose design is described in [_A Programming Paradigm for Spatiotemporal Composability_](https://arxiv.org/abs/2608.25512).
+**Karimbata Harness es el harness de agentes de inteligencia artificial del Grupo Karimbatá.** Permite conversar con modelos de IA y ejecutar tareas sobre proyectos y archivos locales desde una interfaz web o de escritorio.
 
-Documentation: [https://deepseek-harness.github.io/deepseek-harness/](https://deepseek-harness.github.io/deepseek-harness/)
+Este repositorio es una adaptación de [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness), desarrollado por [DeepSeek AI](https://deepseek.com). Mantiene su arquitectura de plugins basada en [Cordis](https://github.com/cordiverse/cordis) e incorpora la identidad visual del Grupo Karimbatá, español latinoamericano y controles separados para seleccionar el proveedor y el modelo de IA.
 
-## Developer preview
+## Funcionalidades
 
-DeepSeek Harness is in _developer preview_ and iterating rapidly. **THERE WILL BE COMPATIBILITY-BREAKING CHANGES.**
+- **Proveedor de IA y modelo de IA:** dos selectores independientes en el área donde escribes tus solicitudes. El selector de modelos muestra los modelos del proveedor elegido.
+- **Modelos por API:** integración con DeepSeek y proveedores configurables como Kimi, OpenAI (modelos GPT) y Anthropic (modelos Claude), según las credenciales y los modelos disponibles.
+- **Proyectos locales:** selección de una carpeta de trabajo para que el agente lea y edite archivos, ejecute comandos y ayude con las tareas del proyecto.
+- **Conversaciones y tareas:** sesiones persistentes, planificación, delegación a otros agentes y seguimiento de la ejecución.
+- **Interfaz adaptable:** modos claro y oscuro, identidad visual del Grupo Karimbatá y soporte para español latinoamericano, inglés y chino simplificado.
+- **Extensiones mediante plugins:** herramientas y capacidades que se pueden combinar sin modificar el núcleo del agente.
 
-Review the [safety notice](SAFETY.md) before running the project.
+## Cómo funciona
 
-## Run
+El harness ejecuta el agente y sus herramientas en el equipo donde se inicia. El proveedor de IA recibe las solicitudes por API y devuelve las respuestas; el harness utiliza esas respuestas para continuar la conversación o ejecutar las herramientas permitidas por la configuración de permisos.
 
-### Run from `npm`
+Al seleccionar un proyecto, el agente trabaja con su carpeta local. Las solicitudes al proveedor pueden incluir instrucciones, mensajes y fragmentos de los archivos necesarios para la tarea. Consulta el [aviso de seguridad](SAFETY.md) antes de utilizarlo con información sensible o autorizar operaciones sobre tus archivos.
 
-Install `Node.js`, then run:
+## Versión preliminar
+
+Karimbata Harness está en desarrollo activo y puede recibir cambios que rompan la compatibilidad de sus funciones o de las API de plugins.
+
+<a id="run"></a>
+
+## Instalación y ejecución
+
+Necesitas Git, Node.js 22 desde la versión 22.19 o Node.js 24 o superior, y pnpm 11.28.5. Para ejecutar esta adaptación, utiliza el código de este repositorio.
+
+<a id="run-from-source"></a>
+
+### Ejecutar desde el código fuente
 
 ```sh
-npx @deepseek-ai/dsh web
-```
-
-The command starts the Web UI at `http://127.0.0.1:3080` by default and opens it in the default browser for a local launch. An SSH launch only prints the host URL because the SSH client or editor owns the local forwarded address. Pass `--no-open` to run the server without opening a browser. See [Web UI guide](docs/user/guide/index.md).
-
-### Run from source
-
-To run from a repository checkout:
-
-```sh
-git clone https://github.com/deepseek-ai/deepseek-harness.git
-cd deepseek-harness
+git clone https://github.com/fortadev/karimbata-harness.git
+cd karimbata-harness
 pnpm install
 pnpm run build
 pnpm dsh web
 ```
 
-`pnpm run build` prepares the repository artifacts. `pnpm dsh web` uses those built artifacts without rebuilding.
+`pnpm run build` genera los archivos necesarios para ejecutar la aplicación. `pnpm dsh web` inicia la interfaz web con esos archivos, sin volver a compilar.
 
-## Community and support
+En un inicio local, la aplicación abre el navegador y utiliza `http://127.0.0.1:3080` de forma predeterminada. La terminal muestra la dirección de acceso. Usa `--no-open` para iniciar sin abrir el navegador; mediante SSH se imprime la dirección para que el cliente gestione el acceso. Consulta la [guía de la interfaz web](docs/user/guide/index.md) para más detalles.
 
-- Submit feedback or bug reports through [GitHub Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions).
-- Add the [`dsh-plugin`](https://github.com/topics/dsh-plugin) topic to your plugin repository for discoverability.
-- Join <a href="https://discord.gg/4MrtZUhpxg">DeepSeek Harness Discord community</a>.
+Para utilizar la aplicación de escritorio, consulta la [guía de escritorio](apps/desktop/README.md).
 
-## Contributing
+## Configurar el proveedor y el modelo de IA
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+1. Abre **Configuración → Modelos** y configura el proveedor con una clave API válida. Puedes agregar otros proveedores desde esa misma sección.
+2. Selecciona o agrega la carpeta de tu proyecto como espacio de trabajo.
+3. En el área de escritura, abre el selector **Proveedor de IA** y elige un proveedor disponible.
+4. Abre el selector de modelos y elige uno de los modelos de ese proveedor. Si el modelo admite niveles de razonamiento, puedes ajustarlos en su menú.
+5. Escribe una solicitud y envíala para comenzar la tarea.
 
-## Development
+Al cambiar a otro proveedor, el harness selecciona su primer modelo disponible y su nivel de razonamiento predeterminado. Puedes cambiar el modelo después. La selección se aplica a la siguiente solicitud; una ejecución en curso conserva la selección con la que comenzó.
 
-Start with the [development guide](docs/development.md) and [architecture documentation](docs/architecture.md).
+Los proveedores visibles y los modelos disponibles dependen de la configuración de cada instalación. Las claves API se configuran fuera del repositorio y no se incluyen en el código ni en los recursos de la aplicación. El consumo y la facturación corresponden a la cuenta del proveedor utilizado. Consulta la [guía de configuración de proveedores](docs/user/guide/providers.md) para las opciones disponibles.
 
-`pnpm run dev:web` builds, serves, and rebuilds client bundles on source edits in one terminal, and `make help` lists the matching Make targets for Web and Desktop; the guide's application commands section owns the full table.
+## Idioma de la interfaz
 
-For agents, follow [AGENTS.md](AGENTS.md).
+Abre **Configuración → General → Idioma** y selecciona **Español (Latinoamérica)**. La aplicación también puede seleccionar este idioma automáticamente según el idioma del sistema o del navegador.
 
-## Citation
+## Desarrollo y contribuciones
+
+La [guía de desarrollo](docs/development.md) explica el entorno y los comandos de trabajo. La [documentación de arquitectura](docs/architecture.md) describe la composición del harness y sus plugins. Estas guías mantienen la documentación técnica del proyecto de origen en inglés y chino.
+
+Consulta [CONTRIBUTING.md](CONTRIBUTING.md) para contribuir y [AGENTS.md](AGENTS.md) para las instrucciones dirigidas a agentes de desarrollo.
+
+## Soporte
+
+Consulta el [repositorio de Karimbata Harness](https://github.com/fortadev/karimbata-harness) para el código y las actualizaciones de esta adaptación. Para consultas sobre el proyecto original, puedes utilizar las [discusiones de DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness/discussions). Al compartir un problema, incluye los pasos para reproducirlo y evita publicar claves API o información confidencial.
+
+## Créditos
+
+El proyecto original DeepSeek Harness es desarrollado por DeepSeek AI. La arquitectura de Cordis se describe en el artículo [_A Programming Paradigm for Spatiotemporal Composability_](https://arxiv.org/abs/2608.25512).
+
+Referencia bibliográfica del proyecto original:
 
 ```bibtex
 @misc{deepseek-harness2026,
@@ -70,8 +96,6 @@ For agents, follow [AGENTS.md](AGENTS.md).
 }
 ```
 
-## License
+## Licencia
 
-[MIT](LICENSE)
-
-Third-party dependencies and their licenses are disclosed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Este repositorio conserva la [licencia MIT](LICENSE) del proyecto original. Las dependencias de terceros y sus licencias se detallan en [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

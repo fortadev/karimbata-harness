@@ -1,4 +1,4 @@
-/** Typed English and Chinese copy owned by the Electron shell. */
+/** Typed English, Chinese, and Latin American Spanish copy owned by the Electron shell. */
 
 export const en = {
   cliCommandMenu: 'Manage dsh Command…',
@@ -67,7 +67,7 @@ export const en = {
   recoveryOperationFailed: 'The recovery operation failed',
   disableThirdPartyPlugins: 'Disable third-party plugins, back up profile patch, and restart',
   welcomeTitle: 'DeepSeek Harness',
-  welcomeBrand: 'DeepSeek Harness',
+  welcomeBrand: 'Karimbata Harness',
   welcomeTaglineBefore: 'Welcome to ',
   welcomeTaglineBrand: 'DeepSeek Harness',
   welcomeTaglineAfter: '',
@@ -168,6 +168,175 @@ export const en = {
   mandatoryNotification: 'Return to the application to confirm installation and restart.',
 } as const
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'cliCommandMenu': 'Gestionar comando dsh…',
+  'cliCommandTitle': 'Gestionar comando dsh',
+  'cliCommandLocation': 'Comando de escritorio: {path}',
+  'cliCommandSelected': 'Comando dsh actual: {path}',
+  'cliCommandTarget': 'Destino actual del lanzador: {path}',
+  'cliCommandShadowed': 'Otra instalación de dsh tiene prioridad. Elimínala o cambia su orden para usar el comando de escritorio de forma predeterminada. También puedes ejecutar el comando de escritorio mediante su ruta completa.',
+  'cliCommandSelectionUnknown': 'No se pudo verificar el comando de tu terminal. Es posible que un alias u otra instalación de dsh tenga prioridad.',
+  'cliCommandInstalled': 'El comando de escritorio está instalado.',
+  'cliCommandNotInstalled': 'Agrega el comando de escritorio a tu terminal.',
+  'cliCommandBroken': 'El comando de escritorio necesita reparación.',
+  'cliCommandInstall': 'Instalar',
+  'cliCommandRepair': 'Reparar',
+  'cliCommandRemove': 'Quitar',
+  'cliCommandClose': 'Cerrar',
+  'cliCommandSwitch': '¿Continuar con el comando de escritorio?',
+  'cliCommandPreserve': 'Se conservará el comando existente. Las otras instalaciones y los archivos de inicio de la terminal no se modificarán.',
+  'cliCommandContinue': 'Continuar',
+  'cliCommandInstallApp': 'Instala la aplicación de escritorio en tu carpeta Aplicaciones antes de gestionar el comando dsh.',
+  'cliCommandUpdating': 'Se está instalando una actualización. Gestiona el comando cuando termine la instalación.',
+  'cliCommandNewTerminal': 'Abre una terminal nueva y ejecuta dsh --version.',
+  'cliCommandRemoved': 'Se eliminó el registro del comando de escritorio.',
+  'cliCommandPreviousRestored': 'Se restauró el lanzador anterior.',
+  'cliCommandOtherKept': 'Se conservaron las otras instalaciones de comandos.',
+  'cliCommandBackupKept': 'Se conserva un lanzador anterior en: {path}',
+  'cliCommandChanged': 'El comando o PATH cambió mientras este diálogo estaba abierto. Vuelve a abrir Gestionar comando dsh para revisar el estado actual.',
+  'cliCommandOwnershipError': 'El registro del comando o la copia de seguridad cambió. No se eliminó ningún comando ajeno.',
+  'cliCommandFailed': 'No se pudo actualizar el comando. Comprueba que la aplicación esté instalada y que el destino permita escritura, y reintenta.',
+  'application': 'Aplicación',
+  'fileMenu': 'Archivo',
+  'closePage': 'Cerrar página o ventana',
+  'aboutMenu': 'Acerca de Karimbata Harness',
+  'aboutProduct': 'Karimbata Harness',
+  'aboutVersion': 'Versión V{version}',
+  'hideApplication': 'Ocultar Karimbata Harness',
+  'hideOtherApplications': 'Ocultar otras',
+  'showAllApplications': 'Mostrar todas',
+  'quitApplication': 'Salir de Karimbata Harness',
+  'openApplication': 'Abrir Karimbata Harness',
+  'quit': 'Salir',
+  'cancel': 'Cancelar',
+  'quitTitle': '¿Salir de Karimbata Harness?',
+  'quitActiveTasks': 'Las tareas en ejecución se interrumpirán.',
+  'quitScheduledTasks': 'Las tareas programadas no se ejecutarán mientras la aplicación esté cerrada.',
+  'quitActiveAndScheduledTasks': 'Las tareas en ejecución se interrumpirán y las tareas programadas no se ejecutarán mientras la aplicación esté cerrada.',
+  'backgroundNoticeBody': 'Las tareas en ejecución continuarán. Puedes volver a abrir la ventana desde la bandeja del sistema.',
+  'backgroundNoticeConfirm': 'Confirmar',
+  'edit': 'Editar',
+  'menuBar': 'Menú de la aplicación',
+  'delete': 'Eliminar',
+  'undo': 'Deshacer',
+  'redo': 'Rehacer',
+  'cut': 'Cortar',
+  'copy': 'Copiar',
+  'paste': 'Pegar',
+  'selectAll': 'Seleccionar todo',
+  'startupFailed': 'Karimbata Harness no está disponible',
+  'fatalSummary': 'La aplicación no pudo iniciarse o se detuvo inesperadamente.',
+  'startupAddressInUse': 'Otra instancia de DSH (como dsh web o la aplicación de escritorio) está en ejecución. No pueden iniciarse al mismo tiempo. Cierra la otra instancia de DSH y reinicia.',
+  'diagnosticTruncated': '… Se acortaron los detalles del error.',
+  'reportWrittenTo': 'Informe de diagnóstico: {path}',
+  'startupReinstallAdvice': 'Si faltan archivos de la aplicación o están dañados, ciérrala y vuelve a instalarla. Tus tareas se guardan por separado.',
+  'exitApplication': 'Salir',
+  'restartApplication': 'Reiniciar',
+  'recoveryOperationFailed': 'La operación de recuperación falló',
+  'disableThirdPartyPlugins': 'Desactivar plugins de terceros, respaldar el parche del perfil y reiniciar',
+  'welcomeTitle': 'Karimbata Harness',
+  'welcomeBrand': 'Karimbata Harness',
+  'welcomeTaglineBefore': 'Bienvenido a ',
+  'welcomeTaglineBrand': 'Karimbata Harness',
+  'welcomeTaglineAfter': '',
+  'welcomeDescription': 'Desarrolla tu potencial. Explora la inteligencia.',
+  'welcomeAuthStarting': 'Abriendo inicio de sesión…',
+  'welcomeAuthWaiting': '¿El navegador no se abrió automáticamente?',
+  'welcomeAuthWaitingDescription': 'Copia el enlace de inicio de sesión y ábrelo en tu navegador para iniciar sesión.',
+  'welcomeAuthExchanging': 'Completando inicio de sesión…',
+  'welcomeAuthExpired': 'Se agotó el tiempo para iniciar sesión',
+  'welcomeAuthExpiredDescription': 'Vuelve a iniciar sesión para continuar',
+  'welcomeAuthFailed': 'No se pudo completar el inicio de sesión. Inténtalo de nuevo.',
+  'welcomeAuthCopyLink': 'Copiar enlace de inicio de sesión',
+  'welcomeAuthCopied': 'Copiado',
+  'welcomeAuthCopyFailed': 'No se pudo copiar. Inténtalo de nuevo.',
+  'welcomeAuthCancel': 'Cancelar',
+  'welcomeAuthRetry': 'Volver a iniciar sesión',
+  'welcomeSignIn': 'Iniciar sesión',
+  'welcomeApiKey': 'Agregar clave API',
+  'welcomeKeyTitle': 'Agrega una clave API para comenzar',
+  'welcomeKeyDescription': 'Configura los modelos oficiales de DeepSeek para comenzar a usar Harness',
+  'welcomeKeyPlaceholder': 'Ingresa la clave API',
+  'welcomeKeySave': 'Guardar y continuar',
+  'welcomeKeyLater': 'Configurar más tarde',
+  'welcomeKeyBack': 'Volver al inicio de sesión',
+  'welcomeSessionExpired': 'Cerraste la sesión de tu cuenta; vuelve a iniciar sesión.',
+  'welcomeKeyBlank': 'Ingresa una clave API.',
+  'welcomeKeyInvalid': 'Ingresa solo la clave API, sin comillas, espacios ni una asignación de variable de entorno.',
+  'welcomeKeyFailed': 'No se pudo guardar la clave API. Inténtalo de nuevo.',
+  'welcomeContinueFailed': 'No se pudo abrir el espacio de trabajo. Inténtalo de nuevo.',
+  'checkUpdatesMenu': 'Buscar actualizaciones…',
+  'reloadPageMenu': 'Recargar página',
+  'restartAppHostMenu': 'Reiniciar aplicación y host',
+  'updateCheckFailedTitle': 'Falló la búsqueda de actualizaciones',
+  'updateCheckFailed': 'No se pudieron buscar actualizaciones. Inténtalo más tarde.',
+  'updateDownloadFailed': 'No se pudo descargar la actualización. Inténtalo de nuevo.',
+  'updateInstallFailed': 'No se pudo instalar la actualización. Inténtalo más tarde.',
+  'updateCheckNetworkFailed': 'No se pudieron buscar actualizaciones. Revisa tu conexión e inténtalo de nuevo.',
+  'updateDownloadNetworkFailed': 'No se pudo descargar la actualización. Revisa tu conexión e inténtalo de nuevo.',
+  'updateInstallNetworkFailed': 'No se pudo instalar la actualización. Revisa tu conexión e inténtalo de nuevo.',
+  'unknownError': 'Error desconocido',
+  'updateCheckTitle': 'Buscar actualizaciones',
+  'updateCurrentDetail': 'Versión actual: {version}',
+  'updateCurrent': '¡Tienes la versión más reciente!',
+  'updateChecking': 'Buscando actualizaciones…',
+  'updateDownload': 'Descargar actualización',
+  'updateDownloadedTitle': 'La versión {version} está lista para instalarse',
+  'updateDownloadedDetail': 'La aplicación se cerrará durante la actualización y volverá a abrirse automáticamente al terminar.',
+  'updateDownloadedDetailWindows': 'La aplicación se cerrará temporalmente durante la actualización y volverá a abrirse automáticamente al terminar.\n\nLa actualización puede tardar. Espera y no vuelvas a iniciar la aplicación durante la instalación.',
+  'updateClose': 'Cerrar',
+  'updateAcknowledge': 'Aceptar',
+  'updateLater': 'Actualizar más tarde',
+  'updateDownloading': 'Descargando {percent}%…',
+  'updateVerifying': 'Verificando archivos de actualización…',
+  'updateInstalling': 'Preparando reinicio…',
+  'updateRetry': 'Reintentar actualización',
+  'updateActiveTasks': 'Todavía hay tareas en curso',
+  'updateActiveTasksDetail': 'La actualización detendrá las tareas en curso y reiniciará la aplicación. ¿Continuar?',
+  'updateStopTasks': 'Detener tareas y actualizar',
+  'updateTasksChanged': 'Se iniciaron tareas nuevas. Confirma otra vez para detenerlas y actualizar.',
+  'updateTasksUnavailable': 'El estado de las tareas no está disponible. Intenta actualizar nuevamente cuando el espacio de trabajo esté listo.',
+  'updateStopFailed': 'No se pudieron detener las tareas de forma segura. La actualización no se instaló. Inténtalo más tarde.',
+  'updateTechnicalDetails': 'Ver detalles técnicos',
+  'updateTitle': 'Actualización de Karimbata Harness',
+  'updateAvailable': 'Nueva versión disponible: {version}',
+  'updateDetail': 'Cuando termine la descarga, puedes instalar la actualización y reiniciar la aplicación.',
+  'installAndRestart': 'Instalar y reiniciar',
+  'later': 'Más tarde',
+  'updateFailedTitle': 'La actualización falló',
+  'mandatoryTitle': 'Actualiza para continuar',
+  'mandatoryDetail': 'Esta versión ya no tiene soporte. Actualiza para continuar. Las tareas en curso seguirán ejecutándose hasta que confirmes la instalación y el reinicio.',
+  'mandatoryUnavailable': 'No se pudieron comprobar los requisitos de actualización. Inténtalo más tarde.',
+  'policyLoginTitle': 'Iniciar sesión en el entorno de prueba',
+  'policyLoginRequired': 'Inicia sesión con Feishu para comprobar los requisitos de actualización de esta versión de prueba. Iniciar sesión no descargará ni instalará una actualización.',
+  'policyLogin': 'Iniciar sesión con Feishu',
+  'policyLoginFailed': 'El inicio de sesión con Feishu no se completó. Inténtalo de nuevo.',
+  'policyLoginLoading': 'Cargando página de inicio de sesión…',
+  'mandatoryNoRelease': 'No se encontró una actualización compatible. Vuelve a comprobar o contacta al soporte.',
+  'mandatoryRefresh': 'Comprobar nuevamente',
+  'mandatoryPage': 'Descargar desde el sitio oficial',
+  'mandatoryCopy': 'Copiar enlace de descarga',
+  'mandatoryPageFailed': 'No se pudo abrir la página oficial de descarga. Copia el enlace y ábrelo en tu navegador.',
+  'mandatoryActionFailed': 'La acción falló. Inténtalo de nuevo. Puedes volver a usar la aplicación al terminar la actualización.',
+  'mandatoryReady': 'Actualización lista',
+  'mandatoryVersion': 'Nueva versión: {version}',
+  'mandatoryReadyDetail': 'La aplicación se cerrará durante la actualización y volverá a abrirse automáticamente al terminar.',
+  'mandatoryDeferred': 'Las tareas en curso seguirán ejecutándose. Completa la actualización antes de volver a usar la aplicación.',
+  'mandatoryContinue': 'Continuar actualización',
+  'mandatoryInspecting': 'Comprobando tareas…',
+  'mandatoryStopping': 'Deteniendo tareas…',
+  'mandatoryRestarting': 'La aplicación se reiniciará pronto. Espera.',
+  'mandatoryDownloadFailed': 'No se pudieron descargar o preparar los archivos de actualización. Reintenta.',
+  'mandatoryInstallFailed': 'La actualización no se instaló. Comprueba nuevamente las tareas y reintenta.',
+  'mandatoryOpenHelp': '¿La página no se abrió?',
+  'mandatoryReopen': 'Volver a abrir la página oficial de descarga',
+  'mandatoryCopied': 'Enlace copiado',
+  'mandatoryCopyFailed': 'No se pudo copiar el enlace. Selecciónalo y cópialo a continuación.',
+  'mandatoryAddress': 'Enlace de descarga',
+  'mandatoryNotification': 'Regresa a la aplicación para confirmar la instalación y el reinicio.',
+} satisfies Record<keyof typeof en, string>
+
 /** Every Desktop locale supplies the complete English key set. */
 export type DesktopMessages = { readonly [Key in keyof typeof en]: string }
 
@@ -238,7 +407,7 @@ export const zh = {
   recoveryOperationFailed: '恢复操作失败',
   disableThirdPartyPlugins: '禁用第三方插件、备份 profile patch 并重启',
   welcomeTitle: 'DeepSeek Harness',
-  welcomeBrand: 'DeepSeek Harness',
+  welcomeBrand: 'Karimbata Harness',
   welcomeTaglineBefore: '欢迎使用 ',
   welcomeTaglineBrand: 'DeepSeek Harness',
   welcomeTaglineAfter: '',
@@ -341,15 +510,16 @@ export const zh = {
 
 /** Locale payload exposed to the Desktop-owned renderer. */
 export interface DesktopLocale {
-  readonly id: 'en' | 'zh-CN'
+  readonly id: 'en' | 'zh-CN' | 'es-419'
   readonly messages: DesktopMessages
 }
 
 /** Resolve Electron's locale to one shipped Desktop dictionary. */
 export function resolveDesktopLocale(locale: string): DesktopLocale {
-  return locale.toLowerCase().startsWith('zh')
-    ? { id: 'zh-CN', messages: zh }
-    : { id: 'en', messages: en }
+  const primary = locale.toLowerCase().split('-')[0]
+  if (primary === 'zh') return { id: 'zh-CN', messages: zh }
+  if (primary === 'es') return { id: 'es-419', messages: es }
+  return { id: 'en', messages: en }
 }
 
 /**
@@ -360,10 +530,10 @@ export function resolveDesktopLocale(locale: string): DesktopLocale {
  */
 export function resolveDesktopStartupLocale(preference: string | null, languages: readonly string[]): DesktopLocale {
   const selected = preference?.toLowerCase()
-  if (selected === 'zh' || selected === 'en') return resolveDesktopLocale(selected)
+  if (selected === 'zh' || selected === 'en' || selected === 'es-419') return resolveDesktopLocale(selected)
   for (const language of languages) {
     const primary = language.toLowerCase().split('-')[0]
-    if (primary === 'zh' || primary === 'en') return resolveDesktopLocale(primary)
+    if (primary === 'zh' || primary === 'en' || primary === 'es') return resolveDesktopLocale(primary)
   }
   return resolveDesktopLocale('en')
 }

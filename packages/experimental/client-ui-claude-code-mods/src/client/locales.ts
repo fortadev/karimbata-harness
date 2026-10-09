@@ -21,3 +21,11 @@ export const en = {
   'press.failed': 'The button failed: {message}',
   'press.stale': 'That button belonged to an earlier drawing; the band has refreshed',
 } satisfies Record<ModsBandKey, string>
+
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'band': 'Modificaciones de Claude Code',
+  'pressing': 'Trabajando…',
+  'press.failed': 'El botón falló: {message}',
+  'press.stale': 'Ese botón pertenecía a un diseño anterior; el panel se actualizó',
+} satisfies Record<keyof typeof en, string>

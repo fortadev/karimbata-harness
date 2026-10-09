@@ -61,18 +61,18 @@ it('boots the built plugin graph and renders a fixture session end to end', asyn
 
   // The sidebar renders from the boot graph: every inject layer activated.
   const tree = await screen.findByRole('tree', { name: 'Sessions' }, { timeout: 10_000 })
+  screen.getByText('Karimbata Harness')
+  expect(document.querySelectorAll('svg[viewBox="0 0 2500 2500"]').length).toBeGreaterThanOrEqual(2)
   if (clientBuildValue('DSH_CLIENT_BUILD_PROFILE') === 'official') {
-    expect(document.querySelector('svg[viewBox="26 0 156 24"]')).not.toBeNull()
-    expect(screen.queryByText('DSH Local Build')).toBeNull()
+    expect(document.querySelector('svg[viewBox="26 0 156 24"]')).toBeNull()
   } else {
-    expect(document.querySelector('svg[viewBox="0 0 23.16 17.04"]')).not.toBeNull()
+    expect(document.querySelector('svg[viewBox="0 0 23.16 17.04"]')).toBeNull()
     const version = clientBuildValue('DSH_CLIENT_VERSION')
     if (version === undefined) throw new Error('default client build record must carry DSH_CLIENT_VERSION')
     const commit = clientBuildValue('DSH_CLIENT_COMMIT_HASH')
     const buildVersion = version
       + (commit === undefined ? '' : `-${commit}`)
       + (clientBuildValue('DSH_CLIENT_GIT_DIRTY') === 'true' ? '-dirty' : '')
-    screen.getByText('DSH Local Build')
     screen.getByText(buildVersion)
   }
   // The compact layout dropped group session counts; the fixture workspace
@@ -186,4 +186,52 @@ it('boots without ui-chat and does not select another conversation view implicit
     expect(document.querySelector('[data-slot="conversation.session"]')).not.toBeNull()
   }, { timeout: 10_000 })
   expect(document.querySelector('[data-slot="conversation.view"]')).toBeNull()
+})
+
+it('detects Latin American Spanish and translates the recorded session interaction', async () => {
+  const languages = Object.getOwnPropertyDescriptor(navigator, 'languages')
+  if (languages === undefined) throw new Error('assembled boot must provide navigator.languages')
+  Object.defineProperty(navigator, 'languages', { value: ['es-PY'], configurable: true })
+  try {
+    mountAssembledApp()
+    const tree = await screen.findByRole('tree', { name: 'Sesiones' }, { timeout: 10_000 })
+    await waitFor(() => { expect(document.documentElement.lang).toBe('es-419') })
+    const title = await within(tree).findByText('Fixture 历史会话')
+    const row = title.closest<HTMLElement>('[role="treeitem"]')
+    if (row === null) throw new Error('fixture Session title must belong to a tree row')
+    const answerStatus = within(row).getByText('Esperando respuesta').textContent
+    const answerAction = within(row).getByText('Responder').textContent
+    fireEvent.click(title)
+    for (let index = 0; index < 3; index += 1) {
+      fireEvent.click(await screen.findByRole('button', { name: 'Omitir' }))
+    }
+    const allow = await screen.findByRole('button', { name: 'Permitir una vez' })
+    await waitFor(() => { within(row).getByText('Esperando aprobación') })
+    const approvalStatus = within(row).getByText('Esperando aprobación').textContent
+    fireEvent.click(allow)
+    fireEvent.click(await screen.findByRole('button', { name: /del contexto usado/ }))
+    const context = await screen.findByRole('dialog', { name: 'del contexto usado' })
+    const labels = ['Instrucción de sistema', 'Definiciones de herramientas', 'Mensajes']
+      .map(label => within(context).getByText(label).textContent)
+    fireEvent.keyDown(context, { key: 'Escape' })
+    const provider = await screen.findByRole('button', { name: /Proveedor de IA/ })
+    fireEvent.click(provider)
+    const providerMenu = await screen.findByRole('menu', { name: 'Proveedor de IA' })
+    const providers = within(providerMenu).getAllByRole('menuitemradio').map(option => option.textContent)
+    fireEvent.keyDown(providerMenu, { key: 'Escape' })
+    await expect([
+      document.documentElement.lang,
+      tree.getAttribute('aria-label'),
+      title.textContent,
+      answerStatus,
+      answerAction,
+      approvalStatus,
+      allow.textContent,
+      ...labels,
+      provider.getAttribute('aria-label'),
+      ...providers,
+    ].join('\n') + '\n').toMatchFileSnapshot('./expected/spanish-boot.expected.txt')
+  } finally {
+    Object.defineProperty(navigator, 'languages', languages)
+  }
 })

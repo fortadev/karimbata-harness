@@ -1,19 +1,22 @@
-import { BrandWordmark, FishLogo } from '@deepseek-ai/dsh-client-ui-primitives'
+import { KarimbataLogo } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { SidebarBrandMarkOwnerProps } from '@deepseek-ai/dsh-client-ui-sidebar/client'
+import type { PropsLocale } from '@deepseek-ai/dsh-client-ui-slots'
+import type {} from '@deepseek-ai/dsh-client-locale/client'
 
 /**
  * Render the official mark with the presentation requested by its host surface.
  * @param props - Host-supplied mark presentation.
- * @returns the official whale mark.
+ * @returns the theme-aware Karimbata mark.
  */
 export function OfficialBrandMark({ size }: SidebarBrandMarkOwnerProps) {
-  return <FishLogo size={size} />
+  return <KarimbataLogo size={size} />
 }
 
 /**
- * Render the official name artwork without its independently slotted mark.
- * @returns the official name wordmark.
+ * Render the localized product name without its independently slotted mark.
+ * @param props - Framework-supplied common translations.
+ * @returns the product name.
  */
-export function OfficialBrandName() {
-  return <BrandWordmark includeMark={false} />
+export function OfficialBrandName({ t }: PropsLocale<'common'>) {
+  return <span>{t('brand.localBuild')}</span>
 }

@@ -10,6 +10,10 @@
 
 /** Simplified Chinese dictionary (the key-set source of truth). */
 export const zh = {
+  'provider.select': 'AI 提供商',
+  'provider.aria': 'AI 提供商，当前 {provider}',
+  'menu.provider': 'AI 提供商',
+  'empty.providers': '暂无可用 AI 提供商。',
   'provider.account': 'DeepSeek 账号',
   'command.label': '模型',
   'command.description': '选择本会话使用的模型',
@@ -40,6 +44,10 @@ export type ModelKey = keyof typeof zh
 
 /** English dictionary, checked complete against the zh key set. */
 export const en = {
+  'provider.select': 'AI provider',
+  'provider.aria': 'AI provider, current {provider}',
+  'menu.provider': 'AI provider',
+  'empty.providers': 'No AI providers available.',
   'provider.account': 'DeepSeek Account',
   'command.label': 'Model',
   'command.description': 'Select the model for this conversation',
@@ -64,3 +72,34 @@ export const en = {
   'empty.models': 'No models available.',
   'empty.efforts': 'This model provides no reasoning effort levels.',
 } satisfies Record<ModelKey, string>
+
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'provider.select': 'Proveedor de IA',
+  'provider.aria': 'Proveedor de IA, actual: {provider}',
+  'menu.provider': 'Proveedor de IA',
+  'empty.providers': 'No hay proveedores de IA disponibles.',
+  'provider.account': 'Cuenta de DeepSeek',
+  'command.label': 'Modelo',
+  'command.description': 'Selecciona el modelo para esta conversación',
+  'option.loadError': 'No se pudo cargar el catálogo: {message}',
+  'trigger.fallback': 'Seleccionar modelo',
+  'trigger.loading': 'Cargando modelos…',
+  'trigger.selectAria': 'Seleccionar modelo',
+  'trigger.aria': 'Seleccionar modelo, actual: {model}',
+  'trigger.ariaEffort': 'Seleccionar modelo, actual: {model}, esfuerzo de razonamiento: {effort}',
+  'menu.aria': 'Modelo y esfuerzo de razonamiento',
+  'menu.model': 'Modelo',
+  'menu.effort': 'Esfuerzo',
+  'effort.providerDefault': 'Predeterminado',
+  'status.loading': 'Actualizando lista de modelos…',
+  'error.action': 'La operación del modelo falló: {message}',
+  'error.sessionInUse': 'Esta sesión ya está en uso, posiblemente por otra instancia de DSH (como dsh web o la aplicación de escritorio). Cierra las otras instancias de DSH e inténtalo de nuevo.',
+  'action.reload': 'Recargar',
+  'warning.groupLoad': 'No se pudo cargar {name}: {message}',
+  'search.placeholder': 'Buscar modelos…',
+  'search.clear': 'Borrar búsqueda',
+  'search.empty': 'No hay modelos que coincidan.',
+  'empty.models': 'No hay modelos disponibles.',
+  'empty.efforts': 'Este modelo no ofrece niveles de esfuerzo de razonamiento.',
+} satisfies Record<keyof typeof en, string>

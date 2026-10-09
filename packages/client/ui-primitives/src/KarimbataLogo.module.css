@@ -1,0 +1,12 @@
+.primary {
+  fill: #12385e;
+}
+
+.accent {
+  fill: #0a89a4;
+}
+
+:global(body[data-ds-dark-theme]) .primary,
+:global(body[data-ds-dark-theme]) .accent {
+  fill: #fff;
+}

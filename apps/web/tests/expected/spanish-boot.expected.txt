@@ -1,0 +1,13 @@
+es-419
+Sesiones
+Fixture 历史会话
+Esperando respuesta
+Responder
+Esperando aprobación
+Permitir una vez
+Instrucción de sistema
+Definiciones de herramientas
+Mensajes
+Proveedor de IA, actual: DeepSeek
+DeepSeek
+OpenAI

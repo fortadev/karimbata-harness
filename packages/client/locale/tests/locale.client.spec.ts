@@ -36,6 +36,27 @@ describe('LocaleRuntime', () => {
     vi.unstubAllGlobals()
   })
 
+  it.each(['es', 'es-419', 'es-MX', 'es-PY', 'es-AR'])('selects Latin American Spanish for browser language %s', (tag) => {
+    stubLanguages(tag)
+    const { svc } = make()
+    expect(svc.getLocale().active).toBe('es-419')
+    expect(svc.getLocale().locales).toContainEqual({
+      id: 'es-419', label: 'Español (Latinoamérica)', fallback: 'en',
+    })
+  })
+
+  it('persists a Spanish selection and uses English for missing extension translations', () => {
+    const host = stubConfigForm<LocaleSettings>()
+    const { svc } = make(host)
+    svc.register('extension', 'en', { missing: 'Extension fallback' })
+    svc.register('extension', 'es-419', { greeting: 'Hola, {name}' })
+    svc.setLocale('es-419')
+    expect(svc.getLocale().active).toBe('es-419')
+    expect(host.set).toHaveBeenCalledWith('preference', 'es-419')
+    expect(svc.bind('extension')('greeting', { name: 'Karimbata' })).toBe('Hola, Karimbata')
+    expect(svc.bind('extension')('missing')).toBe('Extension fallback')
+  })
+
   it('translates through the active-locale -> en -> key chain', () => {
     const { svc } = make()
     svc.register('ns', 'zh', { hello: '你好' })
@@ -197,7 +218,7 @@ describe('LocaleRuntime', () => {
 
     dispose()
     expect(svc.getLocale().active).toBe('zh')
-    expect(svc.getLocale().locales.map(locale => locale.id)).toEqual(['zh', 'en'])
+    expect(svc.getLocale().locales.map(locale => locale.id)).toEqual(['zh', 'en', 'es-419'])
     expect(svc.bind('ns')('hello')).toBe('Hello')
     const revision = svc.getLocale().revision
     dispose()
@@ -273,7 +294,7 @@ describe('LocaleRuntime', () => {
       .toThrow('locale fallback "fr" is not registered')
     expect(() => svc.addLanguage({ id: 'fr', label: 'Français', fallback: 'fr-CA' }))
       .toThrow('fallback cycle')
-    expect(svc.getLocale().locales.map(locale => locale.id)).toEqual(['zh', 'en', 'fr-CA'])
+    expect(svc.getLocale().locales.map(locale => locale.id)).toEqual(['zh', 'en', 'es-419', 'fr-CA'])
   })
 
   it('adopts a saved external locale when its definition registers later', () => {
@@ -388,11 +409,12 @@ describe('LocaleRuntime', () => {
     expect(svc.bind('ns2')('onlyZh')).toBe('onlyZh')
   })
 
-  it('starts with exactly the two shipped locales and their fallback relation', () => {
+  it('starts with the three shipped locales and their fallback relations', () => {
     const { svc } = make()
     expect(svc.getLocale().locales).toEqual([
       { id: 'zh', label: '中文', fallback: 'en' },
       { id: 'en', label: 'English' },
+      { id: 'es-419', label: 'Español (Latinoamérica)', fallback: 'en' },
     ])
   })
 })

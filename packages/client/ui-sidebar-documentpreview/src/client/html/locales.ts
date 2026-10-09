@@ -17,6 +17,14 @@ export const en = {
   failed: 'This HTML document could not be previewed.',
 } satisfies Record<HtmlPreviewKey, string>
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'title': 'HTML',
+  'frame': 'Vista previa de documento HTML',
+  'loading': 'Renderizando documento...',
+  'failed': 'No se pudo obtener una vista previa de este documento HTML.',
+} satisfies Record<keyof typeof en, string>
+
 declare module '@deepseek-ai/dsh-client-ui-slots' {
   interface LocaleNamespaceMap {
     /** HTML preview selection and status text. */

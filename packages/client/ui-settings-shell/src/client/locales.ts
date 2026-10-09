@@ -27,6 +27,24 @@ export const en: Record<ShellSettingsLocaleKey, string> = {
   invalidNumber: 'Enter a number, or leave blank to use the default.',
 }
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'title': 'Terminal',
+  'description': 'Limita el tiempo de ejecución y la cantidad de salida de cada comando.',
+  'timeoutMs': 'Tiempo límite del comando (ms)',
+  'timeoutMsHint': 'Cuánto tiempo puede ejecutarse un comando antes de que se termine.',
+  'maxOutputBytes': 'Límite de salida por flujo (bytes)',
+  'maxOutputBytesHint': 'La salida que supera este límite se guarda en un archivo temporal en lugar de perderse.',
+  'overridden': 'Reemplazado',
+  'reset': 'Restablecer valor predeterminado',
+  'readOnly': 'Esta implementación guarda la configuración en modo de solo lectura.',
+  'unavailable': 'Este plugin no está cargado, por lo que no se puede configurar ahora.',
+  'save': 'Guardar',
+  'saving': 'Guardando…',
+  'saveFailed': 'La implementación no aceptó estos valores; se conservaron para que puedas corregirlos.',
+  'invalidNumber': 'Ingresa un número o deja el campo vacío para usar el valor predeterminado.',
+} satisfies Record<keyof typeof en, string>
+
 /** Simplified Chinese copy. */
 export const zh: Record<ShellSettingsLocaleKey, string> = {
   title: '终端',

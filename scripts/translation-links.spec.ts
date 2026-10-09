@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { parseMarkdown } from './markdown.ts'
 import {
+  hasLanguageSwitcher,
   normalizeTranslationMarkdownLinks,
   rewriteTranslationLinkLocales,
   translationLinkLocaleViolations,
@@ -141,6 +142,30 @@ describe('translation link locale validation', () => {
       linkContext(root, 'docs/guide.zh.md'),
       ['guide.md'],
     )).toEqual([])
+  })
+
+  it.each([
+    ['docs/guide.md', 'Español (Latinoamérica) | [中文](guide.zh.md)', 'guide.zh.md', 'guide.md'],
+    ['docs/guide.zh.md', '[Español (Latinoamérica)](guide.md) | 中文', 'guide.md', 'guide.zh.md'],
+  ])('recognizes the Spanish/Chinese switcher in %s while checking body links', (sourcePath, switcher, target, expectedUrl) => {
+    const root = fixture()
+    const input = `# Guide\n\n${switcher}\n\n[Body](${target})\n`
+    expect(hasLanguageSwitcher(parseMarkdown(input), input, [target])).toBe(true)
+    expect(translationLinkLocaleViolations(input, linkContext(root, sourcePath), [target])).toEqual([{
+      sourcePath,
+      line: 5,
+      url: target,
+      expectedUrl,
+    }])
+  })
+
+  it.each([
+    'Español (Latinoamérica) | [中文](reference.zh.md)',
+    'Español (Latinoamérica) | [中文](guide.zh.md) [Body](reference.md)',
+    '## Body\n\nEspañol (Latinoamérica) | [中文](guide.zh.md)',
+  ])('rejects a Spanish switcher with an unrelated target, extra link, or subsection: %s', (switcher) => {
+    const input = `# Guide\n\n${switcher}\n`
+    expect(hasLanguageSwitcher(parseMarkdown(input), input, ['guide.zh.md'])).toBe(false)
   })
 
   it('does not exempt an ordinary body link to the counterpart', () => {

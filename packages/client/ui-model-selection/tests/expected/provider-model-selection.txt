@@ -1,0 +1,4 @@
+AI 提供商，当前 Kimi|
+选择模型，当前 Kimi First，推理等级 High|
+Kimi First|true
+Kimi Second|false

@@ -38,6 +38,22 @@ export const en = {
   'confirm.enable': 'Enable Full access',
 } satisfies Record<PermissionSettingsKey, string>
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'title': 'Permiso',
+  'description': 'Elige el modo de permisos predeterminado para sesiones nuevas',
+  'loading': 'Cargando',
+  'unavailable': 'No disponible',
+  'preset.readOnly': 'Solo lectura',
+  'preset.workspaceWrite': 'Escritura en el espacio de trabajo',
+  'preset.fullAccess': 'Acceso completo',
+  'confirm.title': '¿Activar el acceso completo?',
+  'confirm.description': 'El acceso completo permite que las sesiones nuevas reduzcan los pasos de confirmación y realicen más acciones directamente, incluidas operaciones sensibles, cambios en archivos o comandos externos. Úsalo solo si confías en las tareas posteriores.',
+  'confirm.acknowledge': 'Entiendo los riesgos y quiero continuar',
+  'confirm.cancel': 'Cancelar',
+  'confirm.enable': 'Activar acceso completo',
+} satisfies Record<keyof typeof en, string>
+
 /** Simplified Chinese dictionary for the current-session popup gate. */
 export const accessZh = {
   'mode': '访问模式，当前：{name}',
@@ -82,3 +98,24 @@ export const accessEn = {
   'auto.confirm.acknowledge': 'I understand these risks and want to continue',
   'auto.confirm.enable': 'Enable Auto review',
 } satisfies Record<PermissionAccessKey, string>
+
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const accessEs = {
+  'mode': 'Modo de acceso, actual: {name}',
+  'close': 'Cerrar',
+  'preset.readOnly': 'Solo lectura',
+  'preset.workspaceWrite': 'Escritura en el espacio de trabajo',
+  'preset.fullAccess': 'Acceso completo',
+  'confirm.title': '¿Activar el acceso completo?',
+  'confirm.description': 'El acceso completo reduce los pasos de confirmación y permite al agente realizar más acciones directamente, incluidas operaciones sensibles, cambios en archivos o comandos externos. Úsalo solo si confías en la tarea actual.',
+  'confirm.acknowledge': 'Entiendo los riesgos y quiero continuar',
+  'confirm.cancel': 'Cancelar',
+  'confirm.enable': 'Activar acceso completo',
+  'auto.label': 'Revisión automática',
+  'auto.badge': 'EXP',
+  'auto.description': 'Ejecutar sin sandbox después de una revisión experimental, realizada por el mismo modelo, de cada llamada nativa a herramientas y cada llamada interna de PTC.',
+  'auto.confirm.title': '¿Activar la revisión automática (experimental)?',
+  'auto.confirm.description': 'La revisión automática se ejecuta sin sandbox. Antes de cada llamada nativa a herramientas y cada llamada interna de PTC, el mismo modelo del agente actual revisa si debe permitirla; tú apruebas o rechazas cada llamada que deniega. Esta función es experimental, puede permitir o denegar acciones por error y usa tokens adicionales.',
+  'auto.confirm.acknowledge': 'Entiendo estos riesgos y quiero continuar',
+  'auto.confirm.enable': 'Activar revisión automática',
+} satisfies Record<keyof typeof accessEn, string>

@@ -6,6 +6,14 @@ export const en = {
   failed: 'Could not save preference',
 }
 
+/** Latin American Spanish dictionary, checked against the English key set. */
+export const es = {
+  'title': 'Subir el registro de la sesión al usar la API del modelo oficial',
+  'description': 'Ayuda a mejorar los modelos y productos de DeepSeek.',
+  'saved': 'Preferencia guardada',
+  'failed': 'No se pudo guardar la preferencia',
+} satisfies Record<keyof typeof en, string>
+
 /** Chinese preference copy. */
 export const zh: Record<keyof typeof en, string> = {
   title: '在使用官方模型 API 时上传 Session Log',
