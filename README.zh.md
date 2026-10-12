@@ -34,9 +34,22 @@ Karimbata Harness 正在积极开发，功能或插件 API 可能出现破坏兼
 
 ## 安装与运行
 
-需要 Git、Node.js 22（22.19 起）或 Node.js 24 及以上版本，以及 pnpm 11.28.5。运行此改编版本时，请使用本仓库的代码。
+从源代码编译时需要 Git、Node.js 22（22.19 起）或 Node.js 24 及以上版本，以及 pnpm 11.28.5。运行此改编版本时，请使用本仓库的代码。
 
 <a id="run-from-source"></a>
+
+### Windows 安装程序（测试）
+
+桌面安装程序支持在 Windows x64 上运行 Karimbata Harness，并使用各设备的本地文件夹。应用仅为当前用户安装，并内置运行环境；收到 EXE 的用户无需安装 Git、Node.js 或 Python。
+
+在 Windows 上从已准备好的仓库副本生成安装包时运行：
+
+```sh
+pnpm run package:desktop:win:x64:unsigned --check
+pnpm run package:desktop:win:x64:unsigned
+```
+
+EXE 保存在 `apps/desktop/.desktop-build/targets/win-x64/unsigned-artifacts/`。此测试版本无需更新服务器，后续版本通过手动安装新 EXE 更新。安装程序支持西班牙语，并使用 Karimbata Harness 品牌。API 密钥在安装后配置，不随 EXE 分发。Active Directory 或 Entra ID 登录和企业 API 中间服务尚未集成。构建与验证要求见 [Windows 安装程序指南](apps/desktop/README.zh.md#unsigned-windows-test-installer)。
 
 ### 从源码运行
 

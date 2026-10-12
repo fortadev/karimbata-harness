@@ -1,6 +1,6 @@
-DeepSeek Harness
 Karimbata Harness
-Welcome to DeepSeek Harness
+Karimbata Harness
+Welcome to Karimbata Harness
 Build potential. Explore intelligence.
 Sign in
 Add API Key

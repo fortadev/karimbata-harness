@@ -411,6 +411,18 @@ it('requires Office skill bodies and helpers in the published payload', () => {
   } })).toEqual([expect.stringContaining('package.json files must be')])
 })
 
+it('requires both creator and Karimbata skill resources in the preset package', () => {
+  const dir = 'packages/preset/agent-preset'
+  const manifest = JSON.parse(readFileSync(new URL(`../${dir}/package.json`, import.meta.url), 'utf8')) as WorkspaceManifest['manifest']
+  expect(checkWorkspaceManifest({ dir, manifest })).toEqual([])
+  for (const omitted of ['skills', 'karimbata-skills']) {
+    expect(checkWorkspaceManifest({ dir, manifest: { ...manifest, files: manifest.files!.filter(file => file !== omitted) } }))
+      .toEqual([expect.stringContaining('package.json files must be')])
+  }
+  expect(checkWorkspaceManifest({ dir, manifest: { ...manifest, files: [...manifest.files!, 'private-data'] } }))
+    .toEqual([expect.stringContaining('package.json files must be')])
+})
+
 it('requires the local speech worker and locked runtime in the published payload', () => {
   const dir = 'packages/experimental/speech-to-text-sensevoice'
   const manifest = JSON.parse(readFileSync(new URL(`../${dir}/package.json`, import.meta.url), 'utf8')) as WorkspaceManifest['manifest']

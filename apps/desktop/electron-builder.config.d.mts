@@ -3,8 +3,9 @@ import type { AfterPackContext, BeforePackContext } from 'app-builder-lib'
 /** Electron-builder fields asserted by the Desktop release tests. */
 export interface DesktopElectronBuilderConfig {
   readonly appId: string
+  readonly productName: 'Karimbata Harness'
   readonly artifactName: string
-  readonly protocols: readonly [{ readonly name: 'DeepSeek Harness'; readonly schemes: readonly ['dsh'] }]
+  readonly protocols: readonly [{ readonly name: 'Karimbata Harness'; readonly schemes: readonly ['dsh'] }]
   readonly directories: {
     readonly output: string
   }
@@ -16,7 +17,11 @@ export interface DesktopElectronBuilderConfig {
     { readonly from: string, readonly to: 'dsh', readonly filter: readonly ['**/*'] },
     { readonly from: string, readonly to: 'dsh/node_modules', readonly filter: readonly ['**/*'] },
   ]
-  readonly extraMetadata: { readonly dshDesktopAppId: string }
+  readonly extraMetadata: {
+    readonly productName: 'Karimbata Harness'
+    readonly author: { readonly name: 'Grupo Karimbatá' }
+    readonly dshDesktopAppId: string
+  }
   readonly asarUnpack: readonly string[]
   readonly extraResources: readonly [
     { readonly from: string, readonly to: 'runtime' },
@@ -50,7 +55,7 @@ export interface DesktopElectronBuilderConfig {
     readonly perMachine: false
     readonly allowElevation: false
     readonly allowToChangeInstallationDirectory: false
-    readonly installerLanguages: readonly ['en_US', 'zh_CN']
+    readonly installerLanguages: readonly ['es_ES', 'en_US', 'zh_CN']
   }
   readonly beforeBuild: () => Promise<boolean>
   readonly beforePack: (context: BeforePackContext) => Promise<void>
@@ -61,7 +66,7 @@ export interface DesktopElectronBuilderConfig {
 }
 
 /**
- * Create electron-builder configuration from one release environment.
+ * Create electron-builder configuration from an isolated local or signed-release environment.
  * @param env - Packaging environment.
  * @param hostPlatform - Build-host platform used when no explicit target is present.
  * @param hostArch - Build-host architecture used when no explicit target is present.

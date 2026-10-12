@@ -12,6 +12,26 @@ vi.mock('node:child_process', async (importOriginal) => {
 })
 
 describe('installer preparation preserves application dependencies', () => {
+  it('preserves installer error and progress substitutions in every language', () => {
+    const strings = readFileSync(new URL('../installer/strings.nsh', import.meta.url), 'utf8')
+    const languages = new Map<string, Map<string, string>>()
+    for (const match of strings.matchAll(/^LangString (INSTALLER_\w+) \$\{LANG_(\w+)\} "(.+)"$/gmu)) {
+      const [, key, language, message] = match
+      const messages = languages.get(language!) ?? new Map<string, string>()
+      expect(messages.has(key!)).toBe(false)
+      messages.set(key!, message!)
+      languages.set(language!, messages)
+    }
+    const english = languages.get('ENGLISH')!
+    expect(english.size).toBeGreaterThan(0)
+    for (const language of ['SIMPCHINESE', 'SPANISHINTERNATIONAL']) {
+      const messages = languages.get(language)!
+      expect([...messages.keys()].sort()).toEqual([...english.keys()].sort())
+      for (const [key, message] of english) {
+        expect(messages.get(key)?.match(/%[ds%]/gu) ?? []).toEqual(message.match(/%[ds%]/gu) ?? [])
+      }
+    }
+  })
   it.each(['win32', 'darwin'] as const)('rejects a missing production policy before signing on %s', async (platform) => {
     const { createElectronBuilderConfig } = await import('../scripts/electron-builder-config.mjs')
     expect(() => createElectronBuilderConfig({ DSH_DESKTOP_APP_ID: 'com.example.installer',
@@ -68,13 +88,15 @@ describe('installer preparation preserves application dependencies', () => {
     const { createElectronBuilderConfig } = await import('../scripts/electron-builder-config.mjs')
     const config = createElectronBuilderConfig({
       DSH_DESKTOP_APP_ID: 'com.example.installer',
-      DSH_DESKTOP_MANDATORY_UPDATE_TEST_ORIGIN: 'https://policy.example.com',
-      DSH_DESKTOP_MANDATORY_UPDATE_CONFIG: JSON.stringify({ allowedAuthOrigins: ['https://login.example.com'] }),
       DSH_DESKTOP_TARGET_PLATFORM: 'win32',
       DSH_DESKTOP_TARGET_ARCH: 'x64',
       DSH_DESKTOP_UNSIGNED: '1',
     }, 'win32', 'x64')
-    expect(config.artifactName).toBe('deepseek-harness-${version}-${os}-${arch}-unsigned.${ext}')
+    expect(config.artifactName).toBe('karimbata-harness-${version}-${os}-${arch}-unsigned.${ext}')
+    expect(config.productName).toBe('Karimbata Harness')
+    expect(config.extraMetadata).not.toHaveProperty('dshMandatoryUpdatePolicy')
+    expect(config.publish).toBeNull()
+    expect(config.nsis.installerLanguages).toContain('es_ES')
   })
 
   it('packages every preload entry point the shell loads', async () => {

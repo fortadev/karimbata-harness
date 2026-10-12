@@ -193,8 +193,8 @@ const packageFileExtras: Readonly<Record<string, readonly string[]>> = {
   '@deepseek-ai/dsh-ptc-runtime-node': ['lib/process.js'],
   // The Inspector owns a Worker and a mirrored frontend outside package export paths.
   '@deepseek-ai/dsh-experimental-inspector': ['lib/client.*.js', 'lib/worker.js', 'lib/devtools/**'],
-  // Creator's composition guidance travels with the declaration package.
-  '@deepseek-ai/dsh-agent-preset': ['skills'],
+  // Preset skills and their referenced resources travel with the declaration package.
+  '@deepseek-ai/dsh-agent-preset': ['skills', 'karimbata-skills'],
   // The Web Host mounts the default-off settings owner independently of each
   // Agent-scoped delegation-tool instance.
   '@deepseek-ai/dsh-tool-subagent': ['lib/model-selection-settings.js'],

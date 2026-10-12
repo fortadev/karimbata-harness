@@ -28,6 +28,7 @@ import { applyChildComposition, childSessionMeta } from '@deepseek-ai/dsh-subage
 import { ToolCallId } from '@deepseek-ai/dsh-llm'
 import type {} from '@deepseek-ai/dsh-compaction-basic'
 import type {} from '@deepseek-ai/dsh-skill'
+import { renderSkillContent } from '@deepseek-ai/dsh-skill'
 import type {} from '@deepseek-ai/dsh-tools'
 // Type-only: resolves `ctx.get('sessionProjections')` and `ctx.get('tokenMeter')`.
 import type {} from '@deepseek-ai/dsh-session-projection'
@@ -233,12 +234,40 @@ describe('the shipped Web composition', () => {
     }
   })
 
-  it('supplies both shipped presets, and only those, from the system root', async () => {
+  it('supplies the shipped presets from the system root', async () => {
     const listed = await ctx.agentPresets.list()
 
-    expect(listed.map(preset => preset.id).sort()).toEqual(['cordis', 'minimal', 'ptc', 'standard'])
+    expect(listed.map(preset => preset.id).sort()).toEqual(['analista-funcional', 'cordis', 'minimal', 'ptc', 'standard'])
     expect(listed.every(preset => !('path' in preset))).toBe(true)
     expect(ctx.agentPresets.defaultId).toBe('standard')
+  })
+
+  it('loads analista-funcional with its complete skill and without shell or web tools', async () => {
+    const handle = await ctx.agents.create({
+      sessionId: SessionId(`preset-analista-funcional-${randomUUID()}`),
+      setup: agentCtx => ctx.agentPresets.mount(agentCtx, 'analista-funcional').then(() => undefined),
+    })
+    try {
+      const tools = toolNames(ctx, handle.agent)
+      expect(tools).toEqual(expect.arrayContaining(['read', 'edit', 'skill', 'todo_write']))
+      for (const excluded of ['bash', 'pwsh', 'web_fetch', 'web_search', 'subagent', 'run_code']) {
+        expect(tools).not.toContain(excluded)
+      }
+      const skill = await ctx.skills.get('analista-funcional', { scope: handle.agent })
+      if (skill === undefined) throw new Error('analista-funcional skill is unavailable in its preset')
+      expect(skill.content).toContain('## Límites de actuación')
+      const document = await ctx.agentPresets.readDocument('analista-funcional')
+      const budgets = [...document.content.matchAll(/thresholdChars: (\d+)/gu)]
+      expect(budgets).toHaveLength(1)
+      expect(Array.from(renderSkillContent(skill)).length).toBeLessThanOrEqual(Number(budgets[0]?.[1]))
+      const persona = (await ctx.systemPrompt.assemble({ scope: handle.agent })).sections
+        .filter(section => section.name.startsWith('deployment:persona-'))
+        .map(section => section.text).filter(text => text.length > 0).join('\n\n') + '\n'
+      await expect(persona).toMatchFileSnapshot(fileURLToPath(new URL('./expected/analista-funcional-persona.expected.md', import.meta.url)))
+      expect((await ctx.skills.list()).map(entry => entry.name)).not.toContain('analista-funcional')
+    } finally {
+      await handle.dispose()
+    }
   })
 
   it('composes the full agent from `standard`', async () => {

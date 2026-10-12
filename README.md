@@ -34,9 +34,22 @@ Karimbata Harness está en desarrollo activo y puede recibir cambios que rompan 
 
 ## Instalación y ejecución
 
-Necesitas Git, Node.js 22 desde la versión 22.19 o Node.js 24 o superior, y pnpm 11.28.5. Para ejecutar esta adaptación, utiliza el código de este repositorio.
+Para compilar desde el código fuente necesitas Git, Node.js 22 desde la versión 22.19 o Node.js 24 o superior, y pnpm 11.28.5. Para ejecutar esta adaptación, utiliza el código de este repositorio.
 
 <a id="run-from-source"></a>
+
+### Instalador de Windows (prueba)
+
+El instalador de escritorio permite ejecutar Karimbata Harness en Windows x64 y trabajar con las carpetas locales de cada equipo. Instala la aplicación para el usuario actual e incluye su entorno de ejecución; los usuarios que reciben el EXE no necesitan instalar Git, Node.js ni Python.
+
+Para generar el instalador desde una copia preparada del repositorio, ejecuta en Windows:
+
+```sh
+pnpm run package:desktop:win:x64:unsigned --check
+pnpm run package:desktop:win:x64:unsigned
+```
+
+El EXE se guarda en `apps/desktop/.desktop-build/targets/win-x64/unsigned-artifacts/`. Esta versión de prueba no requiere un servidor de actualizaciones y se actualiza instalando manualmente el siguiente EXE. El instalador admite español y utiliza la marca Karimbata Harness. Las claves API se configuran después de instalar; no se distribuyen dentro del EXE. El inicio de sesión con Active Directory o Entra ID y el intermediario corporativo de API todavía no están integrados. Consulta los requisitos de compilación y verificación en la [guía del instalador de Windows](apps/desktop/README.md#unsigned-windows-test-installer).
 
 ### Ejecutar desde el código fuente
 

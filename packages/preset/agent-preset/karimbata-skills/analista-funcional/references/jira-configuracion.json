@@ -1,0 +1,42 @@
+{
+  "schema_version": "jira-connection/0.1",
+  "instance_id": "fortaleza-jira-cloud",
+  "deployment": "cloud",
+  "site_url": "https://fz-itsm.atlassian.net",
+  "source": "URL y contexto proporcionados por el usuario el 2026-10-01",
+  "connection_status": "not_authenticated",
+  "authentication": {
+    "method": null,
+    "identity_ref": null,
+    "secret_ref": null
+  },
+  "publication_enabled": false,
+  "pilot_project_key": null,
+  "projects": [
+    {
+      "project_key": "ADS",
+      "area": "Arquitectura",
+      "source_url": "https://fz-itsm.atlassian.net/jira/software/projects/ADS/list?jql=project%20%3D%20ADS%20ORDER%20BY%20key%20ASC%2C%20rank%20ASC",
+      "metadata_status": "not_verified",
+      "permissions_status": "not_verified",
+      "issue_type_ids": {
+        "epic": null,
+        "phase": null,
+        "work": null
+      },
+      "required_fields": null,
+      "dependency_link_type_ref": null
+    }
+  ],
+  "project_discovery_pending": [
+    { "area": "CORE", "project_key": null },
+    { "area": "SAP", "project_key": null },
+    { "area": "CRM", "project_key": null }
+  ],
+  "routing": {
+    "selection": "explicit_project_in_approved_scope",
+    "default_project_key": null,
+    "unknown_project_action": "block",
+    "cross_project_work": "separate_plans_when_explicitly_approved"
+  }
+}

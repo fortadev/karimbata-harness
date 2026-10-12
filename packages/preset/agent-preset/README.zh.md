@@ -47,9 +47,11 @@ kind: "package-reference"
 
 声明行的 `id` 是 Loader 编辑地址；`config.id` 是会话保存的 preset 标识符。子插件可省略行 ID，由 Loader 分配。
 
-本包还随包出货创造模式通过 `skill-filesystem` 挂载的 `skills/` 目录：`agent-experience`（工具描述与高效上下文加载）、`cordis-plugin-development`（简短流程，配合按需读取的 `references/` 与可复制的 `templates/` 组合包）、`editing-cordis-compositions`，以及 `cordis-composition-reference`，后者的 `references/packages.md` 由 `scripts/gen-plugin-packages.ts` 生成并在 `doc-sync` 中做新鲜度门禁。两个流程 skill 让 agent 先读检查结果，再读 `Config.listConfigs` 报告的 `packageDir` 下的包 README，最后读构建后的 `lib/` 或 checkout 源码。每个出货的 `SKILL.md` 作为 `skill` 工具结果渲染后都保持在 8192 字符阈值之下，标准 preset 的工具结果修剪器超过该阈值才会裁剪。
+本包还随包出货创造模式通过 `skill-filesystem` 挂载的 `skills/` 目录：`agent-experience`（工具描述与高效上下文加载）、`cordis-plugin-development`（简短流程，配合按需读取的 `references/` 与可复制的 `templates/` 组合包）、`editing-cordis-compositions`，以及 `cordis-composition-reference`，后者的 `references/packages.md` 由 `scripts/gen-plugin-packages.ts` 生成并在 `doc-sync` 中做新鲜度门禁。两个流程 skill 让 agent 先读检查结果，再读 `Config.listConfigs` 报告的 `packageDir` 下的包 README，最后读构建后的 `lib/` 或 checkout 源码。`skills/` 下每个创造模式 `SKILL.md` 作为 `skill` 工具结果渲染后都保持在 8192 字符阈值之下，标准 preset 的工具结果修剪器超过该阈值才会裁剪。
 
 在 [skills/agent-experience/SKILL.md](skills/agent-experience/SKILL.md) 编辑 `agent-experience`。仓库发现路径 `.agents/skills/agent-experience/SKILL.md` 是指向该文件的相对符号链接；发布包包含普通文件。
+
+本包还在 `karimbata-skills/` 下包含 [Karimbata 分析师资源](karimbata-skills/analista-funcional/SKILL.md)，仅由[功能分析 preset](../../bundle/web-app/README.zh.md#per-session-agent-setup) 挂载。这些生成的西班牙语资源保留源版本和草稿状态。应修改其所属的 Desarrollo Agéntico 仓库，并一起同步生成文件。导入的 CORE 文档中的路径指向原始 FORTALEZACORE 检出目录；本包不包含该应用的源文件。
 
 <a id="understand-the-implementation"></a>
 ## 理解实现
@@ -83,6 +85,7 @@ kind: "package-reference"
 
 - 需要 `agentPresets` 服务。重复的 preset ID 会导致声明加载失败。声明不提供目录、文件复制或文件删除操作。
 - 从仓库发现 `agent-experience` 要求 checkout 启用符号链接。设置 `core.symlinks=false` 时，Git 会将链接目标写成纯文本，而不是 skill。创造模式使用包内的普通文件，不依赖该别名。
+- 导入的分析师参考资料仍是草稿：配置档索引使用旧目录布局，通用配置档和 Jira 计划指南引用了过时的范围章节编号。请使用包内的 `references/perfiles/<id>.md` 文件和 `references/plantilla-alcance-funcional.md` 中的章节标题；同步前应在源仓库修正这些引用。
 
 <a id="dev-note"></a>
 ### 开发备注

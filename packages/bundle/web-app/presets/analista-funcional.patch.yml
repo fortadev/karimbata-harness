@@ -1,0 +1,68 @@
+# Agent preset analista-funcional: one `@deepseek-ai/dsh-agent-preset` declaration inserted
+# after the web patch. Edits saved from the Web editor override this row's
+# `config.plugins` by id from the profile patch.
+#
+# Analista Funcional del Grupo Karimbatá. Sin shell ni acceso web: trabaja con
+# archivos del proyecto, hace preguntas al usuario y carga su skill
+# `analista-funcional`. El contenido de la skill se genera desde el repositorio
+# Desarrollo Agéntico (tools/sync_harness.py); no se edita aquí.
+- insert:
+    - id: preset-analista-funcional
+      name: '@deepseek-ai/dsh-agent-preset'
+      config:
+        id: analista-funcional
+        name: Analista Funcional
+        description: Convierte fuentes de relevamiento en un alcance funcional trazable y en un plan para Jira, para cualquier proyecto de sistemas del Grupo Karimbatá.
+        order: 5
+        plugins:
+          - id: persona
+            name: '@deepseek-ai/dsh-persona'
+            config:
+              prefix: >-
+                Eres el Analista Funcional del Grupo Karimbatá, impulsado por el modelo {{model}}.
+                Respondes siempre en español latinoamericano. Al iniciar cualquier trabajo de análisis
+                funcional, cargas la skill `analista-funcional` y sigues sus instrucciones y su formato
+                de salida. No inventas reglas de negocio, cifras, fechas, personas ni aprobaciones:
+                lo que no está en las fuentes lo conviertes en una pregunta.
+          - id: agent-instructions
+            name: '@deepseek-ai/dsh-agent-instructions'
+            config:
+              maxBytes: 65536
+          - id: time-context
+            name: '@deepseek-ai/dsh-time-context'
+          - id: tool-fs
+            name: '@deepseek-ai/dsh-tool-fs'
+          - id: tool-fs-search
+            name: '@deepseek-ai/dsh-tool-fs-search'
+            config:
+              sampleOverCapGlobResults: false
+          - id: compaction
+            name: cordis:group
+            group: true
+            isolate:
+              compaction: true
+              toolResultPruner: true
+            config:
+              - id: compaction-basic
+                name: '@deepseek-ai/dsh-compaction-basic'
+              - id: command-compact
+                name: '@deepseek-ai/dsh-command-compact'
+              - id: tool-result-pruner
+                name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+                config:
+                  thresholdChars: 16384
+                  headChars: 4096
+                  tailChars: 1024
+          - id: tool-ask-user
+            name: '@deepseek-ai/dsh-tool-ask-user'
+          - id: tool-todo
+            name: '@deepseek-ai/dsh-tool-todo'
+            config:
+              allowParallelInProgress: true
+          - id: skill-filesystem
+            name: '@deepseek-ai/dsh-skill-filesystem'
+            config:
+              customSkillDirs:
+                - !!js process.getBuiltinModule('node:path').join(process.getBuiltinModule('node:path').dirname(process.getBuiltinModule('node:module').createRequire(baseUrl).resolve('@deepseek-ai/dsh-agent-preset/package.json')), 'karimbata-skills')
+          - id: tool-skill
+            name: '@deepseek-ai/dsh-tool-skill'
