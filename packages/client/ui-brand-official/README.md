@@ -9,7 +9,7 @@ English | [中文](README.zh.md)
 
 ## Summary
 
-This package gives an `official` client build the Karimbata mark and localized Karimbata Harness name in the sidebar. Other build profiles keep the shell's Karimbata mark and the same product name, while the conversation hero always uses the same theme-aware mark. It has no runtime state and does not affect model requests.
+This package gives an `official` client build the Karimbatá mark and localized Karimbatá Harness name in the sidebar. Other build profiles keep the shell's Karimbatá mark and the same product name, while the conversation hero always uses the same theme-aware mark. It has no runtime state and does not affect model requests.
 
 ## Table of Contents
 
@@ -29,7 +29,7 @@ Mount this plugin in the browser roster, then build the client with the `officia
 
 ### Choosing the profile
 
-`DSH_CLIENT_BUILD_PROFILE` selects which brand renders. An `official` build shows the Karimbata mark and Karimbata Harness name in the sidebar; any other value leaves the shell fallbacks — the Karimbata mark and the same localized name — in place. The conversation hero shows the theme-aware Karimbata mark from `dsh-client-ui-conversation` regardless of profile. The plugin still loads and validates in both cases; only the registration is profile-gated.
+`DSH_CLIENT_BUILD_PROFILE` selects which brand renders. An `official` build shows the Karimbatá mark and Karimbatá Harness name in the sidebar; any other value leaves the shell fallbacks — the Karimbatá mark and the same localized name — in place. The conversation hero shows the theme-aware Karimbatá mark from `dsh-client-ui-conversation` regardless of profile. The plugin still loads and validates in both cases; only the registration is profile-gated.
 
 ### Replacing the brand
 

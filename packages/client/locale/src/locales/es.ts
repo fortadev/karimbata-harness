@@ -33,7 +33,7 @@ export const es = {
   'collapse': 'Contraer',
   'expand': 'Expandir',
   'back': 'Volver',
-  'brand.localBuild': 'Karimbata Harness',
+  'brand.localBuild': 'Karimbatá Harness',
   'workspace.defaultName': 'Espacio de trabajo predeterminado',
   'unknown': 'Desconocido',
   'none': 'Ninguno',

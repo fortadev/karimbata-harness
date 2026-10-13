@@ -29,6 +29,7 @@ import { ToolCallId } from '@deepseek-ai/dsh-llm'
 import type {} from '@deepseek-ai/dsh-compaction-basic'
 import type {} from '@deepseek-ai/dsh-skill'
 import { renderSkillContent } from '@deepseek-ai/dsh-skill'
+import { setSandboxMode } from '@deepseek-ai/dsh-sandbox-policy'
 import type {} from '@deepseek-ai/dsh-tools'
 // Type-only: resolves `ctx.get('sessionProjections')` and `ctx.get('tokenMeter')`.
 import type {} from '@deepseek-ai/dsh-session-projection'
@@ -249,7 +250,7 @@ describe('the shipped Web composition', () => {
     })
     try {
       const tools = toolNames(ctx, handle.agent)
-      expect(tools).toEqual(expect.arrayContaining(['read', 'edit', 'skill', 'todo_write']))
+      expect(tools).toEqual(expect.arrayContaining(['read', 'edit', 'skill', 'todo_write', 'convertir_documento', 'render_document']))
       for (const excluded of ['bash', 'pwsh', 'web_fetch', 'web_search', 'subagent', 'run_code']) {
         expect(tools).not.toContain(excluded)
       }
@@ -267,6 +268,98 @@ describe('the shipped Web composition', () => {
       expect((await ctx.skills.list()).map(entry => entry.name)).not.toContain('analista-funcional')
     } finally {
       await handle.dispose()
+    }
+  })
+
+  it('delivers Word and PDF from analyst Markdown without command tools or overwriting existing files', async () => {
+    const project = await mkdtemp(join(tmpdir(), 'dsh-analyst-documents-'))
+    const handle = await ctx.agents.create({
+      sessionId: SessionId(`analyst-documents-${randomUUID()}`), meta: { cwd: project },
+      agentOptions: { provider: 'deepseek', model: 'deepseek-chat' },
+      setup: agentCtx => ctx.agentPresets.mount(agentCtx, 'analista-funcional').then(() => undefined),
+    })
+    try {
+      const source = '# Alcance funcional\n\nGrupo Karimbatá: análisis y aprobación.\n\n| ID | Requisito |\n|---|---|\n| RF-001 | Conciliar pagos |\n'
+      await writeFile(join(project, 'alcance.md'), source)
+      const invoke = (name: string, args: unknown) => ctx.tools.execute({
+        callId: ToolCallId(`document-${randomUUID()}`), name, arguments: args,
+        signal: new AbortController().signal, agent: handle.agent,
+      })
+      const word = await invoke('convertir_documento', { entrada: 'alcance.md', formato: 'docx' })
+      expect(word.isError).toBe(false)
+      expect((await readFile(join(project, 'alcance.docx'))).subarray(0, 2).toString()).toBe('PK')
+      const pdf = await invoke('convertir_documento', { entrada: 'alcance.md' })
+      expect(pdf.isError).toBe(false)
+      expect((await readFile(join(project, 'alcance.pdf'))).subarray(0, 5).toString()).toBe('%PDF-')
+      const office = await invoke('convertir_documento', { entrada: 'alcance.docx', salida: 'desde-word.pdf' })
+      expect(office.isError).toBe(false)
+      expect((await readFile(join(project, 'desde-word.pdf'))).subarray(0, 5).toString()).toBe('%PDF-')
+      const previous = await readFile(join(project, 'alcance.pdf'))
+      const route = vi.spyOn(ctx.llm, 'resolveModelInfo')
+      try {
+        route.mockResolvedValue({ provider: 'deepseek', id: 'deepseek-chat', name: 'test text route', inputModalities: ['text'] })
+        const skipped = await invoke('render_document', { file_path: 'alcance.pdf' })
+        expect(skipped.isError).toBe(false)
+        expect(JSON.stringify(skipped.content)).toContain('skipped')
+        route.mockResolvedValue({ provider: 'deepseek', id: 'deepseek-chat', name: 'test image route', inputModalities: ['text', 'image'] })
+        const preview = await invoke('render_document', { file_path: 'alcance.pdf', output_dir: 'preview', pages: [1] })
+        expect(preview.isError).toBe(false)
+        const rendered = JSON.parse(preview.content.filter(block => block.type === 'text').map(block => block.text).join('')) as { images: { path: string }[] }
+        expect(rendered.images).toHaveLength(1)
+        expect((await readFile(rendered.images[0]!.path)).subarray(0, 8)).toEqual(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))
+        const invalidPages = await invoke('render_document', { file_path: 'alcance.pdf', pages: [0] })
+        expect(invalidPages.isError).toBe(true)
+      } finally { route.mockRestore() }
+      const repeated = await invoke('convertir_documento', { entrada: 'alcance.md' })
+      expect(repeated.isError).toBe(true)
+      expect(await readFile(join(project, 'alcance.pdf'))).toEqual(previous)
+      const escaped = await invoke('convertir_documento', { entrada: 'alcance.md', salida: join(dirname(project), `escaped-${randomUUID()}.pdf`) })
+      expect(escaped.isError).toBe(true)
+      expect(JSON.stringify(escaped.content)).toContain('inside the project')
+      expect(await readFile(join(project, 'alcance.md'), 'utf8')).toBe(source)
+      expect(toolNames(ctx, handle.agent)).not.toContain('pwsh')
+      setSandboxMode(handle.agent.session, 'read-only')
+      const denied = await invoke('convertir_documento', { entrada: 'alcance.md', salida: 'read-only.pdf' })
+      expect(denied.isError).toBe(true)
+      expect(JSON.stringify(denied.content)).toContain('read-only')
+      await expect(readFile(join(project, 'read-only.pdf'))).rejects.toMatchObject({ code: 'ENOENT' })
+    } finally {
+      await handle.dispose()
+      await rm(project, { recursive: true, force: true })
+    }
+  })
+
+  it('cancels and joins an active analyst document read before closing its agent', async () => {
+    const project = await mkdtemp(join(tmpdir(), 'dsh-analyst-cancel-'))
+    const handle = await ctx.agents.create({
+      sessionId: SessionId(`analyst-cancel-${randomUUID()}`), meta: { cwd: project },
+      setup: agentCtx => ctx.agentPresets.mount(agentCtx, 'analista-funcional').then(() => undefined),
+    })
+    const started = Promise.withResolvers<undefined>()
+    const caller = new AbortController()
+    let stopped = false
+    const read = vi.spyOn(ctx.fs, 'readByteRange').mockImplementation((_target, _range, signal) => new Promise((_resolve, reject) => {
+      started.resolve(undefined)
+      if (signal === undefined) throw new Error('Document reads must carry cancellation')
+      const stop = (): void => { stopped = true; reject(signal.reason) }
+      if (signal.aborted) stop()
+      else signal.addEventListener('abort', stop, { once: true })
+    }))
+    try {
+      await writeFile(join(project, 'input.md'), '# Alcance\n')
+      const pending = ctx.tools.execute({ callId: ToolCallId(`cancel-${randomUUID()}`), name: 'convertir_documento',
+        arguments: { entrada: 'input.md' }, signal: caller.signal, agent: handle.agent })
+      await started.promise
+      caller.abort()
+      expect((await pending).isError).toBe(true)
+      expect(stopped).toBe(true)
+      await handle.dispose()
+      await expect(readFile(join(project, 'input.pdf'))).rejects.toMatchObject({ code: 'ENOENT' })
+    } finally {
+      caller.abort()
+      read.mockRestore()
+      await handle.dispose()
+      await rm(project, { recursive: true, force: true })
     }
   })
 

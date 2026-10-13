@@ -1,4 +1,4 @@
-# Karimbata Harness
+# Karimbatá Harness
 
 [Español (Latinoamérica)](README.md) | 中文
 
@@ -7,7 +7,7 @@
   <img src="apps/desktop/resources/karimbata-logo.svg" alt="Grupo Karimbatá 标志" width="120">
 </picture>
 
-**Karimbata Harness 是 Grupo Karimbatá 的 AI agent harness（智能体框架）。** 用户可以通过 Web 或桌面界面与 AI 模型对话，并处理本地项目和文件。
+**Karimbatá Harness 是 Grupo Karimbatá 的 AI agent harness（智能体框架）。** 用户可以通过 Web 或桌面界面与 AI 模型对话，并处理本地项目和文件。
 
 本仓库改编自 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)，原项目由 [DeepSeek AI](https://deepseek.com) 开发。本项目保留基于 [Cordis](https://github.com/cordiverse/cordis) 的插件架构，并加入 Grupo Karimbatá 的视觉标识、拉丁美洲西班牙语，以及独立的 AI 提供商和模型选择控件。
 
@@ -28,7 +28,7 @@ Harness 在启动它的计算机上运行智能体及其工具。AI 提供商通
 
 ## 预览版本
 
-Karimbata Harness 正在积极开发，功能或插件 API 可能出现破坏兼容性的变更。
+Karimbatá Harness 正在积极开发，功能或插件 API 可能出现破坏兼容性的变更。
 
 <a id="run"></a>
 
@@ -40,7 +40,7 @@ Karimbata Harness 正在积极开发，功能或插件 API 可能出现破坏兼
 
 ### Windows 安装程序（测试）
 
-桌面安装程序支持在 Windows x64 上运行 Karimbata Harness，并使用各设备的本地文件夹。应用仅为当前用户安装，并内置运行环境；收到 EXE 的用户无需安装 Git、Node.js 或 Python。
+桌面安装程序支持在 Windows x64 上运行 Karimbatá Harness，并使用各设备的本地文件夹。应用仅为当前用户安装，并内置运行环境；收到 EXE 的用户无需安装 Git、Node.js 或 Python。
 
 在 Windows 上从已准备好的仓库副本生成安装包时运行：
 
@@ -49,7 +49,7 @@ pnpm run package:desktop:win:x64:unsigned --check
 pnpm run package:desktop:win:x64:unsigned
 ```
 
-EXE 保存在 `apps/desktop/.desktop-build/targets/win-x64/unsigned-artifacts/`。此测试版本无需更新服务器，后续版本通过手动安装新 EXE 更新。安装程序支持西班牙语，并使用 Karimbata Harness 品牌。API 密钥在安装后配置，不随 EXE 分发。Active Directory 或 Entra ID 登录和企业 API 中间服务尚未集成。构建与验证要求见 [Windows 安装程序指南](apps/desktop/README.zh.md#unsigned-windows-test-installer)。
+EXE 保存在 `apps/desktop/.desktop-build/targets/win-x64/unsigned-artifacts/`。此测试版本无需更新服务器，后续版本通过手动安装新 EXE 更新。安装程序支持西班牙语，并使用 Karimbatá Harness 品牌。API 密钥在安装后配置，不随 EXE 分发。Active Directory 或 Entra ID 登录和企业 API 中间服务尚未集成。构建与验证要求见 [Windows 安装程序指南](apps/desktop/README.zh.md#unsigned-windows-test-installer)。
 
 ### 从源码运行
 
@@ -91,7 +91,7 @@ pnpm dsh web
 
 ## 支持
 
-此改编版本的代码和更新见 [Karimbata Harness 仓库](https://github.com/fortadev/karimbata-harness)。有关原项目的问题，可以使用 [DeepSeek Harness Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions)。分享问题时，请提供复现步骤，不要公开 API 密钥或机密信息。
+此改编版本的代码和更新见 [Karimbatá Harness 仓库](https://github.com/fortadev/karimbata-harness)。有关原项目的问题，可以使用 [DeepSeek Harness Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions)。分享问题时，请提供复现步骤，不要公开 API 密钥或机密信息。
 
 ## 致谢
 

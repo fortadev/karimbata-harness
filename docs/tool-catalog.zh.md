@@ -19,6 +19,7 @@
 
 | 工具包 | 模型可见名称 | 依赖 | 写入／影响 | 随产品发布的别名 | 部署说明 |
 | --- | --- | --- | --- | --- | --- |
+| `@deepseek-ai/dsh-office-to-pdf/tools` | `convertir_documento`, `render_document` | `ctx.tools`, `ctx.fs`, `ctx.workingDirectory`, `ctx.sandboxPolicy`, `ctx.llm` | `tool/call`, `新项目文档或 PNG 文件`, `tool/result` | - | 由 analista-funcional preset 挂载。模型无图像能力时返回 skipped；仅提供文档操作。 |
 | `@deepseek-ai/dsh-plugin-manager` | `plugin_manager` | `ctx.tools`, `ctx.pluginManager`, `ctx.sandboxPolicy` | `tool/call`, `tool/result`, `user/message` | - | - |
 | `@deepseek-ai/dsh-mcp-resources` | `list_mcp_resource_templates`, `list_mcp_resources`, `read_mcp_resource` | `ctx.tools`, `ctx.mcpResources` | `tool/call`, `tool/result` | - | - |
 | `@deepseek-ai/dsh-experimental-browser-use-stagehand-native` | `stagehand_act`、`stagehand_extract`、`stagehand_navigate`、`stagehand_observe`、`stagehand_screenshot`、`stagehand_tabs` | `ctx.browserUse`、`ctx.agents`、`ctx.tools`、`ctx.systemPrompt` | `tool/call`、`tool/result` | - | - |
@@ -51,6 +52,77 @@
 | `@deepseek-ai/dsh-tool-workflow` | `workflow` | `ctx.tools`、`ctx.workflowEngine`、`ctx.systemPrompt`、`a calling Agent (exec.agent parents the script children)` | `tool/call`、`tool/result` | - | - |
 | `@deepseek-ai/dsh-tool-workspace-dependencies` | `load_workspace_dependencies` | `ctx.tools` | `tool/call`, `tool/result` | - | - |
 | `@deepseek-ai/dsh-tool-web` | `web_fetch`、`web_search` | `ctx.tools`、`ctx.web`、`ctx.systemPrompt` | `tool/call`、`tool/result` | - | web_search 和 web_fetch 将提供方选择置于 ctx.web 之后，使模型可见 schema 在更换后端时保持稳定。 |
+
+<a id="deepseek-aidsh-office-to-pdftools"></a>
+
+## `@deepseek-ai/dsh-office-to-pdf/tools`
+
+### `convertir_documento`
+
+将项目 Markdown 或 Office 文档转换为新 PDF，或将 Markdown/Word 转为 DOCX。使用随包引擎，不执行脚本或安装软件。输入和输出必须位于原项目内；现有输出文件被拒绝。
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "entrada": {
+      "type": "string",
+      "description": "Existing project document path, relative to the current directory or absolute."
+    },
+    "formato": {
+      "type": "string",
+      "description": "Output format; defaults to pdf.",
+      "enum": [
+        "pdf",
+        "docx"
+      ]
+    },
+    "salida": {
+      "type": "string",
+      "description": "New output file path with the selected extension; parent directory must exist. Defaults to the input basename with the selected extension."
+    }
+  },
+  "required": [
+    "entrada"
+  ]
+}
+```
+
+来源：[`packages/document/office-to-pdf/src/tools.ts`](../packages/document/office-to-pdf/src/tools.ts)
+
+### `render_document`
+
+将项目 PDF、Office 或 Markdown 渲染为 PNG 页面，用 read_image 进行视觉检查。当前模型不能读取图片时返回 skipped，不生成图片。此结果不证明版式已检查。输出目录必须是项目内的新目录。
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "file_path": {
+      "type": "string",
+      "description": "Existing project document path."
+    },
+    "output_dir": {
+      "type": "string",
+      "description": "New project directory for PNG pages; parent must exist. Defaults to a unique directory beside the source."
+    },
+    "pages": {
+      "type": "array",
+      "description": "Positive one-based pages/slides to inspect; omit for all. Do not supply for spreadsheets.",
+      "items": {
+        "type": "integer"
+      }
+    }
+  },
+  "required": [
+    "file_path"
+  ]
+}
+```
+
+来源：[`packages/document/office-to-pdf/src/tools.ts`](../packages/document/office-to-pdf/src/tools.ts)
+
+由 analista-funcional preset 挂载。模型元数据没有图像能力时，渲染返回 skipped。这些工具提供文档操作，不提供任意命令。
 
 <a id="deepseek-aidsh-plugin-manager"></a>
 

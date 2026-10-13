@@ -79,8 +79,8 @@ describe('official browser-brand plugin', () => {
   })
 
   it('renders the official name independently from both requested mark sizes', () => {
-    const name = render(<OfficialBrandName t={key => key === 'brand.localBuild' ? 'Karimbata Harness' : key} />)
-    expect(name.getByText('Karimbata Harness')).toBeTruthy()
+    const name = render(<OfficialBrandName t={key => key === 'brand.localBuild' ? 'Karimbatá Harness' : key} />)
+    expect(name.getByText('Karimbatá Harness')).toBeTruthy()
     expect(name.container.querySelector('svg')).toBeNull()
     name.unmount()
 

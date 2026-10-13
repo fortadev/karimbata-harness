@@ -3,9 +3,10 @@ import type { AfterPackContext, BeforePackContext } from 'app-builder-lib'
 /** Electron-builder fields asserted by the Desktop release tests. */
 export interface DesktopElectronBuilderConfig {
   readonly appId: string
-  readonly productName: 'Karimbata Harness'
+  readonly productName: 'Karimbatá Harness'
+  readonly executableName: 'Karimbata Harness'
   readonly artifactName: string
-  readonly protocols: readonly [{ readonly name: 'Karimbata Harness'; readonly schemes: readonly ['dsh'] }]
+  readonly protocols: readonly [{ readonly name: 'Karimbatá Harness'; readonly schemes: readonly ['dsh'] }]
   readonly directories: {
     readonly output: string
   }
@@ -18,7 +19,7 @@ export interface DesktopElectronBuilderConfig {
     { readonly from: string, readonly to: 'dsh/node_modules', readonly filter: readonly ['**/*'] },
   ]
   readonly extraMetadata: {
-    readonly productName: 'Karimbata Harness'
+    readonly productName: 'Karimbatá Harness'
     readonly author: { readonly name: 'Grupo Karimbatá' }
     readonly dshDesktopAppId: string
   }

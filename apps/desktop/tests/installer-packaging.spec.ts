@@ -93,7 +93,8 @@ describe('installer preparation preserves application dependencies', () => {
       DSH_DESKTOP_UNSIGNED: '1',
     }, 'win32', 'x64')
     expect(config.artifactName).toBe('karimbata-harness-${version}-${os}-${arch}-unsigned.${ext}')
-    expect(config.productName).toBe('Karimbata Harness')
+    expect(config.productName).toBe('Karimbatá Harness')
+    expect(config.executableName).toBe('Karimbata Harness')
     expect(config.extraMetadata).not.toHaveProperty('dshMandatoryUpdatePolicy')
     expect(config.publish).toBeNull()
     expect(config.nsis.installerLanguages).toContain('es_ES')

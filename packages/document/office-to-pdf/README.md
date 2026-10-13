@@ -27,6 +27,18 @@ Convert Office documents to PDFs on the Host computer. Targets with a declared n
 
 The [Web bundle](../../bundle/web-app/README.md) mounts this provider as `office-to-pdf`. Independent compositions mount `@deepseek-ai/dsh-office-to-pdf` as a `cordis.yml` row.
 
+### Agent document tools
+
+The `analista-funcional` preset mounts `@deepseek-ai/dsh-office-to-pdf/tools`, exposing `convertir_documento` and `render_document` without a shell, script runner or software installation. Independent compositions mount this entry beside `tools`, `fs`, `workingDirectory`, `sandboxPolicy` and `llm`.
+
+`convertir_documento` accepts `entrada`, optional `formato` (`pdf` by default, or `docx`) and optional `salida`, a fresh file path whose parent exists. Markdown becomes a Word report with headings, emphasis, lists and tables; PDF export and existing Office conversion use the bundled kit. Word inputs can produce DOCX; spreadsheets and presentations produce PDF. Markdown images, reference links and raw HTML reject rather than disappear. Inline links and code blocks remain inert visible text. Results confirm `ruta`, `bytes`, `formato`, `motor` and `missingFonts`; DOCX authoring does not inspect font availability.
+
+`render_document` accepts `file_path`, optional fresh `output_dir` and optional positive one-based `pages`. PDF, Office and Markdown produce PNG paths, byte sizes, dimensions, total source page count and missing fonts. Worksheets use visible-data tiling and do not accept `pages`. Without an image-capable calling model, the result is `status: skipped` before source reading. A ready result confirms generation; inspect its images with `read_image` before claiming visual review.
+
+Both tools require a local Agent project and a writable Session policy. Paths and links outside the original project reject, including after a working-directory change. Existing outputs are preserved. Inputs use bounded, version-checked snapshots. Each operation owns scratch files and its converter; cancellation and plugin unload join engine disposal and cleanup. Already-published files can remain after a later cancellation or cleanup failure; inspect the requested output before retrying with a new name.
+
+Tool-entry defaults are `maxConcurrentOperations=1`, `timeoutMs=60000`, `maxInputBytes=52428800`, `maxOutputBytes=104857600`, `maxMetadataBytes=65536`, `maxPages=32`, `dpi=144`, `maxPixels=4194304`, `maxDimension=4096`, `maxMarkdownBytes=1048576`, `maxMarkdownNodes=40000`, `maxMarkdownDepth=128`, `maxTableColumns=20` and `reportFont=Arial`. Excess concurrent work rejects. Output bounds cover the full artifact or PNG batch and complete JSON metadata. The deadline requests cancellation; synchronous authoring remains byte/node bounded.
+
 Callers submit authorized source identity, version, optional byte size, a deferred bounded read, Office extension, and scheduling priority through `ctx.officeToPdf.convert()`. A changed source version rejects conversion. Results contain caller-owned PDF bytes, missing fonts, a cache key, and a conversion generation that changes on configuration replacement. Cancellation rejects with its reason; conversion failures use `OfficeToPdfError`.
 
 The provider depends on the independently published [`@deepseek-ai/libreoffice-kit`](https://github.com/deepseek-ai/dsh-libreoffice-kit) npm API at kit version `^0.1.5`. Application packaging selects the matching native package declared in the kit’s `optionalDependencies`, or WASM when no native package is declared for that target. A missing declared native engine rejects packaging without selecting WASM. The [release ownership decision](../../../.agents/notes/implemented/architecture/2026-09-14-independent-libreoffice-kit.md) defines the independent kit and Harness responsibilities.
@@ -81,11 +93,19 @@ Remote file reads recheck content authorization and source version before consul
 <a id="model-experience"></a>
 ## Model Experience
 
-None, as this package converts bytes without model-facing tools, messages, or Session events.
+### Document tool schemas
+
+#### What the model sees
+
+The optional entry declares the schemas in the [tool catalog](../../../docs/tool-catalog.md#deepseek-aidsh-office-to-pdftools). Conversion reports artifact metadata; rendering reports selected image paths or an explicit skipped result. The byte conversion provider contributes no model context.
+
+#### Token effect
+
+Two schemas are present only in scopes mounting the tool entry. Results retain bounded metadata rather than source text or binary output.
 
 #### KV Cache effect
 
-None; conversion does not construct or modify model requests.
+Tool schemas are stable for the mounted preset; changing tool composition replaces that schema context. Operation results append through ordinary tool results.
 
 ## Known Limitations and Deferred Work
 
@@ -93,6 +113,7 @@ None; conversion does not construct or modify model requests.
 
 - Conversion fidelity and installed native/WASM assets belong to `@deepseek-ai/libreoffice-kit`; this provider neither searches for system LibreOffice nor downloads an engine at runtime.
 - Queue waiting time is not bounded by `timeoutMs`, which starts only when kit conversion begins.
+- Tool authorization and kit controls do not provide an operating-system sandbox against native-engine exploits or concurrent directory replacement by another process. The kit disables macros, document updates and LOK network host access; these tools accept no arbitrary commands.
 
 <a id="dev-note"></a>
 ### Dev Note

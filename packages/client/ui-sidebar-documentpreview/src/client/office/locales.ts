@@ -49,7 +49,7 @@ export const es = {
   'missingFontsDescription': 'Estas fuentes no están disponibles en esta vista previa. El texto y el diseño pueden diferir del documento original.',
   'missingFontsCount': 'Fuentes: {count}',
   'closeDetails': 'Cerrar detalles de fuentes',
-  'unavailable': 'Las vistas previas de Office no están disponibles. Activa el servicio de vista previa de documentos en la computadora que ejecuta Karimbata Harness.',
+  'unavailable': 'Las vistas previas de Office no están disponibles. Activa el servicio de vista previa de documentos en la computadora que ejecuta Karimbatá Harness.',
   'invalid': 'No se puede obtener una vista previa de este archivo de Office. Puede estar dañado, protegido por contraseña o tener una extensión incorrecta.',
   'tooLarge': 'El archivo de Office o el PDF convertido supera el límite de tamaño de vista previa. Reduce el tamaño del archivo o ajusta la configuración de vista previa.',
   'failed': 'La conversión de Office no generó un PDF utilizable. Revisa el archivo e inténtalo de nuevo.',

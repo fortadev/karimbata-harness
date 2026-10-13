@@ -52,7 +52,7 @@ target package 通过 declaration merge 扩展 snapshot 与 Location data map，
 <a id="shell-and-standard-props"></a>
 ## Shell 与标准 props
 
-空白 New Session 首屏使用主题感知的 Karimbata 标志作为 `conversation.hero.brand.mark` 的回退。slot 填充可替换该标志，而不改变标题或 composer。
+空白 New Session 首屏使用主题感知的 Karimbatá 标志作为 `conversation.hero.brand.mark` 的回退。slot 填充可替换该标志，而不改变标题或 composer。
 
 共享图片插槽属性将展示选择与持久化引用分开：`thumbnail` 请求完整缩放的附件列表缩略图，`compact` 请求裁剪的图片方块。每张图片可通过可选的 `label` 提供无障碍展示名称；加载和缓存标识仍使用原始附件引用。[ui-attachment](../ui-attachment/README.zh.md) 负责渲染与灯箱。
 

@@ -15,6 +15,7 @@ This table connects model-visible tool names to the plugin package and service s
 
 | Tool package | Model-visible names | Requires | Writes / affects | Shipped aliases | Deployment note |
 | --- | --- | --- | --- | --- | --- |
+| `@deepseek-ai/dsh-office-to-pdf/tools` | `convertir_documento`, `render_document` | `ctx.tools`, `ctx.fs`, `ctx.workingDirectory`, `ctx.sandboxPolicy`, `ctx.llm` | `tool/call`, `new project document or PNG files`, `tool/result` | - | Mounted by the analista-funcional preset. Rendering returns skipped without image-capable model metadata. These tools expose document operations, never arbitrary commands. |
 | `@deepseek-ai/dsh-plugin-manager` | `plugin_manager` | `ctx.tools`, `ctx.pluginManager`, `ctx.sandboxPolicy` | `tool/call`, `tool/result`, `user/message` | - | - |
 | `@deepseek-ai/dsh-mcp-resources` | `list_mcp_resource_templates`, `list_mcp_resources`, `read_mcp_resource` | `ctx.tools`, `ctx.mcpResources` | `tool/call`, `tool/result` | - | - |
 | `@deepseek-ai/dsh-experimental-browser-use-stagehand-native` | `stagehand_act`, `stagehand_extract`, `stagehand_navigate`, `stagehand_observe`, `stagehand_screenshot`, `stagehand_tabs` | `ctx.browserUse`, `ctx.agents`, `ctx.tools`, `ctx.systemPrompt` | `tool/call`, `tool/result` | - | - |
@@ -47,6 +48,77 @@ This table connects model-visible tool names to the plugin package and service s
 | `@deepseek-ai/dsh-tool-workflow` | `workflow` | `ctx.tools`, `ctx.workflowEngine`, `ctx.systemPrompt`, `a calling Agent (exec.agent parents the script children)` | `tool/call`, `tool/result` | - | - |
 | `@deepseek-ai/dsh-tool-workspace-dependencies` | `load_workspace_dependencies` | `ctx.tools` | `tool/call`, `tool/result` | - | - |
 | `@deepseek-ai/dsh-tool-web` | `web_fetch`, `web_search` | `ctx.tools`, `ctx.web`, `ctx.systemPrompt` | `tool/call`, `tool/result` | - | web_search and web_fetch keep provider selection behind ctx.web so model-visible schemas stay stable across backend swaps. |
+
+<a id="deepseek-aidsh-office-to-pdftools"></a>
+
+## `@deepseek-ai/dsh-office-to-pdf/tools`
+
+### `convertir_documento`
+
+Convert a project Markdown or Office document to a new PDF, or Markdown/Word to DOCX. Uses the bundled engine; never executes scripts or installs software. Input and output must be inside the original project. Existing output files are refused.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "entrada": {
+      "type": "string",
+      "description": "Existing project document path, relative to the current directory or absolute."
+    },
+    "formato": {
+      "type": "string",
+      "description": "Output format; defaults to pdf.",
+      "enum": [
+        "pdf",
+        "docx"
+      ]
+    },
+    "salida": {
+      "type": "string",
+      "description": "New output file path with the selected extension; parent directory must exist. Defaults to the input basename with the selected extension."
+    }
+  },
+  "required": [
+    "entrada"
+  ]
+}
+```
+
+Source: [`packages/document/office-to-pdf/src/tools.ts`](../packages/document/office-to-pdf/src/tools.ts)
+
+### `render_document`
+
+Render a project PDF, Office or Markdown document to PNG pages for visual inspection with read_image. Returns skipped without generating images when the current model cannot read images. Does not prove layout was inspected. Output directory must be new and inside the project.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "file_path": {
+      "type": "string",
+      "description": "Existing project document path."
+    },
+    "output_dir": {
+      "type": "string",
+      "description": "New project directory for PNG pages; parent must exist. Defaults to a unique directory beside the source."
+    },
+    "pages": {
+      "type": "array",
+      "description": "Positive one-based pages/slides to inspect; omit for all. Do not supply for spreadsheets.",
+      "items": {
+        "type": "integer"
+      }
+    }
+  },
+  "required": [
+    "file_path"
+  ]
+}
+```
+
+Source: [`packages/document/office-to-pdf/src/tools.ts`](../packages/document/office-to-pdf/src/tools.ts)
+
+Mounted by the analista-funcional preset. Rendering returns skipped without image-capable model metadata. These tools expose document operations, never arbitrary commands.
 
 <a id="deepseek-aidsh-plugin-manager"></a>
 

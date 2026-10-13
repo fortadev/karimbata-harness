@@ -411,7 +411,7 @@ it('requires Office skill bodies and helpers in the published payload', () => {
   } })).toEqual([expect.stringContaining('package.json files must be')])
 })
 
-it('requires both creator and Karimbata skill resources in the preset package', () => {
+it('requires both creator and Karimbatá skill resources in the preset package', () => {
   const dir = 'packages/preset/agent-preset'
   const manifest = JSON.parse(readFileSync(new URL(`../${dir}/package.json`, import.meta.url), 'utf8')) as WorkspaceManifest['manifest']
   expect(checkWorkspaceManifest({ dir, manifest })).toEqual([])

@@ -3,6 +3,7 @@ import { WINDOWS_TITLEBAR_HEIGHT } from './windows-layout.ts'
 /** Electron shell: desktop project ownership, custom protocol, windows, and lifecycle. */
 
 import { readFile, writeFile } from 'node:fs/promises'
+import { mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
@@ -81,6 +82,15 @@ const rendererConsole = new RendererConsoleTail()
 
 // Platform-conventional logs directory (macOS ~/Library/Logs/<name>, otherwise under userData);
 // set before ready so the first fatal report already resolves under it.
+// Preserve browser storage from installations whose display name had no accent.
+if (app.isPackaged && app.getPath('userData') === join(app.getPath('appData'), 'Karimbatá Harness')) {
+  const userData = join(app.getPath('appData'), 'Karimbata Harness')
+  mkdirSync(userData, { recursive: true })
+  if (app.getPath('sessionData') === join(app.getPath('appData'), 'Karimbatá Harness')) {
+    app.setPath('sessionData', userData)
+  }
+  app.setPath('userData', userData)
+}
 app.setAppLogsPath()
 
 function currentDesktopLocale(): ReturnType<typeof resolveDesktopLocale> {
@@ -929,7 +939,7 @@ async function main(): Promise<void> {
   const applicationIconPath = development ? join(app.getAppPath(), 'resources', 'icon-windows.png')
     : join(process.resourcesPath, 'icon.png')
   app.setAboutPanelOptions({
-    applicationName: 'Karimbata Harness',
+    applicationName: 'Karimbatá Harness',
     applicationVersion: app.getVersion(),
     // The release has no separate build number; omit Electron's bundle version.
     version: '',

@@ -25,6 +25,18 @@
     },
     {
       "path": "../../fs/fs"
+    },
+    {
+      "path": "../../core/tools"
+    },
+    {
+      "path": "../../llm/llm"
+    },
+    {
+      "path": "../../session/working-directory"
+    },
+    {
+      "path": "../../sandbox/sandbox-policy"
     }
   ]
 }

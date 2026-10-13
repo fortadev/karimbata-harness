@@ -27,6 +27,18 @@ kind: "package-reference"
 
 [Web bundle](../../bundle/web-app/README.zh.md)以 `office-to-pdf` 条目挂载此提供方。独立组合通过 `cordis.yml` 条目挂载 `@deepseek-ai/dsh-office-to-pdf`。
 
+### Agent 文档工具
+
+`analista-funcional` preset 挂载 `@deepseek-ai/dsh-office-to-pdf/tools`，提供 `convertir_documento` 和 `render_document`，不提供 shell、脚本运行器或软件安装。独立组合将此入口挂载在 `tools`、`fs`、`workingDirectory`、`sandboxPolicy` 和 `llm` 旁。
+
+`convertir_documento` 接受 `entrada`、可选 `formato`（默认 `pdf`，或 `docx`）和可选 `salida`；输出必须是父目录存在的新文件。Markdown 转为含标题、强调、列表和表格的 Word 报告；PDF 导出及现有 Office 转换使用随包交付的 kit。Word 可生成 DOCX，表格和演示文稿生成 PDF。Markdown 图片、引用式链接及原始 HTML 会被拒绝，不会消失。内联链接和代码块保留为不可执行的可见文本。结果确认 `ruta`、`bytes`、`formato`、`motor` 和 `missingFonts`；创建 DOCX 不检查字体可用性。
+
+`render_document` 接受 `file_path`、可选的新 `output_dir` 和可选的正数、一基 `pages`。PDF、Office 和 Markdown 产生 PNG 路径、字节数、尺寸、源总页数和缺失字体。工作表使用可见数据分块，不接受 `pages`。调用模型无图像能力时，在读取源之前返回 `status: skipped`。ready 只确认生成；必须用 `read_image` 检查图片后才能声明视觉检查完成。
+
+两个工具要求本地 Agent 项目及允许写入的 Session 策略。工作目录改变后，原项目之外的路径和链接仍被拒绝。现有输出保留。输入使用有界、版本检查的快照。每次操作拥有其临时文件和转换器；取消和插件卸载等待引擎释放和清理完成。发布后的文件可能在后续取消或清理失败时保留；使用新名称重试前应检查请求的输出。
+
+工具入口默认配置为 `maxConcurrentOperations=1`、`timeoutMs=60000`、`maxInputBytes=52428800`、`maxOutputBytes=104857600`、`maxMetadataBytes=65536`、`maxPages=32`、`dpi=144`、`maxPixels=4194304`、`maxDimension=4096`、`maxMarkdownBytes=1048576`、`maxMarkdownNodes=40000`、`maxMarkdownDepth=128`、`maxTableColumns=20`、`reportFont=Arial`。超过并发上限的请求被拒绝。输出上限覆盖完整产物或 PNG 批次，以及完整 JSON 元数据。期限请求取消；同步创建仍由字节和节点上限约束。
+
 调用方通过 `ctx.officeToPdf.convert()` 提交已授权源的标识、版本、可选字节数、延迟的有界读取、Office 扩展名和调度优先级。源版本变化会拒绝转换。结果包含调用方拥有的 PDF 字节、缺失字体、缓存键和转换 generation；配置替换后 generation 随之改变。取消以原因为拒绝值，转换失败使用 `OfficeToPdfError`。
 
 此 provider 依赖独立发布的 [`@deepseek-ai/libreoffice-kit`](https://github.com/deepseek-ai/dsh-libreoffice-kit) npm API，kit 版本为 `^0.1.5`。应用打包选择 kit 的 `optionalDependencies` 中声明的匹配原生包；目标没有声明原生包时选择 WASM。已声明的原生引擎缺失时拒绝打包，不会选择 WASM。[发布归属决策](../../../.agents/notes/implemented/architecture/2026-09-14-independent-libreoffice-kit.zh.md)定义独立 kit 与 Harness 各自的职责。
@@ -81,11 +93,19 @@ Remote 文件读取在查询转换缓存前重新检查内容读取授权和源�
 <a id="model-experience"></a>
 ## 模型体验
 
-无，因为此包仅转换字节，不提供面向模型的工具、消息或 Session 事件。
+### 文档工具 Schema
+
+#### What the model sees
+
+可选入口的 Schema 见[工具目录](../../../docs/tool-catalog.zh.md#deepseek-aidsh-office-to-pdftools)。转换报告产物元数据；渲染报告所选图片路径或明确的 skipped 结果。字节转换提供方不贡献模型上下文。
+
+#### Token effect
+
+两个 Schema 仅存在于挂载工具入口的作用域中。结果保留有界元数据，不包含源文本或二进制输出。
 
 #### KV Cache effect
 
-无；转换不会构造或修改模型请求。
+工具 Schema 在已挂载 preset 中保持稳定；改变工具组合会替换该上下文。操作结果通过普通工具结果追加。
 
 ## 已知限制与延后工作
 
@@ -93,6 +113,7 @@ Remote 文件读取在查询转换缓存前重新检查内容读取授权和源�
 
 - 转换保真度和已安装的原生/WASM 资产由 `@deepseek-ai/libreoffice-kit` 负责；此提供方不查找系统 LibreOffice，也不在运行时下载引擎。
 - `timeoutMs` 仅在 kit 开始转换时计时，不限制队列等待时间。
+- 工具授权及 kit 控制不构成防御原生引擎漏洞或其他进程并发替换目录的操作系统沙箱。kit 禁用宏、文档更新和 LOK 网络主机访问；这些工具不接受任意命令。
 
 <a id="dev-note"></a>
 ### 开发备注

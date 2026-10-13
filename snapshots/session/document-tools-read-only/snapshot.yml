@@ -1,0 +1,13 @@
+version: 1
+scenario: document-tools-read-only
+profile: headless
+composition: document-tools
+recording: authored
+header:
+  class: document-tools
+  pin: true
+replay:
+  override: true
+permission: read-only
+workspace:
+  parent: outside-temp

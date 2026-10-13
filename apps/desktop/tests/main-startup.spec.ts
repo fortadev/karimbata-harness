@@ -159,6 +159,7 @@ const harness = await vi.hoisted(async () => {
     getVersion: () => '1.0.0',
     getAppPath: (): string => 'desktop-test-app',
     setAppLogsPath: vi.fn(),
+    setPath: vi.fn<(name: string, path: string) => void>(),
     getPath: vi.fn<(name: string) => string>(),
     setAboutPanelOptions: vi.fn<(options: Electron.AboutPanelOptionsOptions) => void>(),
     requestSingleInstanceLock: () => true,
@@ -443,6 +444,32 @@ afterEach(async () => {
 })
 
 describe('desktop main startup', () => {
+  it.each([true, false])('retains browser storage after the accent correction (default session directory=%s)', async (defaultSession) => {
+    const root = harness.app.getPath('userData')
+    const previous = join(root, 'Karimbata Harness')
+    let current = join(root, 'Karimbatá Harness')
+    let sessionData = defaultSession ? current : root
+    harness.app.getPath.mockImplementation(name => name === 'userData' ? current : name === 'sessionData' ? sessionData
+      : name === 'appData' ? root : `desktop-test-${name}`)
+    harness.app.setPath.mockImplementation((name, path) => {
+      if (name === 'sessionData') sessionData = path
+      else current = path
+    })
+    await readyForUpdate()
+    expect(harness.app.setPath).toHaveBeenCalledWith('userData', previous)
+    if (defaultSession) expect(harness.app.setPath).toHaveBeenCalledWith('sessionData', previous)
+    else expect(harness.app.setPath).not.toHaveBeenCalledWith('sessionData', expect.anything())
+    expect(harness.app.getPath('userData')).toBe(previous)
+    expect(harness.app.getPath('sessionData')).toBe(defaultSession ? previous : root)
+  })
+
+  it('preserves an explicitly selected browser-storage directory', async () => {
+    const selected = harness.app.getPath('userData')
+    await readyForUpdate()
+    expect(harness.app.setPath).not.toHaveBeenCalled()
+    expect(harness.app.getPath('userData')).toBe(selected)
+  })
+
   it.each([true, false])('selects the package manager before Host startup (packaged=%s)', async (packaged) => {
     harness.app.isPackaged = packaged
     await readyForUpdate()
@@ -555,7 +582,7 @@ describe('desktop main startup', () => {
     await vi.advanceTimersByTimeAsync(0)
     const zh = locale === 'zh-CN'
     expect(harness.dialog.showMessageBox).toHaveBeenLastCalledWith(expect.objectContaining({
-      type: 'info', title: zh ? '关于 Karimbata Harness' : 'About Karimbata Harness', message: 'Karimbata Harness',
+      type: 'info', title: zh ? '关于 Karimbatá Harness' : 'About Karimbatá Harness', message: 'Karimbatá Harness',
       detail: zh ? '版本 V1.0.0' : 'Version V1.0.0', buttons: [zh ? '确定' : 'OK'], cancelId: 0,
     }))
     // A dialog that cannot open is logged, not surfaced as an unhandled rejection.
@@ -973,7 +1000,7 @@ describe('desktop main startup', () => {
     expect(() => handler(event, 'application', NaN, 34)).toThrow('invalid popup request')
     const application = handler(event, 'application', 48, 34)
     expect(harness.menu.buildFromTemplate.mock.lastCall![0].map(item => item.label ?? item.type)).toEqual([
-      '关于 Karimbata Harness', 'separator', '检查更新…', '管理 dsh 命令…', 'separator', '退出',
+      '关于 Karimbatá Harness', 'separator', '检查更新…', '管理 dsh 命令…', 'separator', '退出',
     ])
     expect(harness.popup.mock.lastCall![0]).toMatchObject({ window, x: 48, y: 34 })
     expect(harness.popup.mock.lastCall![0].callback).toBeTypeOf('function')

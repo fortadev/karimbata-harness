@@ -90,7 +90,7 @@ dsh --profile web --no-open --host "$(hostname -i | awk '{print $1}')" --public-
 
 每个浏览器会话选择一个随发行版交付的 preset（默认 `standard`）。Agent 预设设置页可更改默认项并编辑预设的子插件；保存结果持久化到 `$DSH_HOME/profiles/web/cordis.patch.yml`。只有 Host 提供可编辑的 profile 时，Creator 的插件管理工具才会启用。
 
-`analista-funcional` 是可选的 Karimbata 功能分析 preset。选择 **Analista Funcional** 可使用西班牙语指令、本地文件工具、提问、任务跟踪，以及附带范围文档和 Jira 计划模板的 skill。该 preset 不提供 shell、Web 或 Jira 发布工具。其 skill 是等待真实资料评估的草稿；平台画像用于引导提问，而非确立项目事实。该 preset 将工具结果修剪阈值设置为 16,384 个 Unicode 码点，以容纳完整 skill 结果。SharePoint 访问、转录、企业审批和 Jira 发布需要独立集成。
+`analista-funcional` 是可选的 Karimbatá 功能分析 preset。选择 **Analista Funcional** 可使用西班牙语指令、本地文件工具、提问、任务跟踪，以及附带范围文档和 Jira 计划模板的 skill。它提供用于 Markdown 和 Office 源的[文档转换及 PNG 渲染](../../document/office-to-pdf/README.zh.md)。该 preset 不提供 shell、Web 或 Jira 发布工具。其 skill 是等待真实资料评估的草稿；平台画像用于引导提问，而非确立项目事实。该 preset 将工具结果修剪阈值设置为 16,384 个 Unicode 码点，以容纳完整 skill 结果。SharePoint 访问、转录、企业审批和 Jira 发布需要独立集成。
 
 -----
 

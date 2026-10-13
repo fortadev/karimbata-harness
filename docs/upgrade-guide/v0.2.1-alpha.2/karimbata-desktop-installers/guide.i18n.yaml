@@ -3,14 +3,14 @@
 # After editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write docs/upgrade-guide/v0.2.1-alpha.2/karimbata-desktop-installers/guide.md
 /:
-  en: 27ad96be32532ac9
-  zh: 1eb705aec508ff0e
-/karimbata-harness-desktop-installers:
-  en: f0ef47fb91205256
-  zh: f5810e0f567c03cb
-/karimbata-harness-desktop-installers/change:
-  en: ba8fe349bb205dcc
-  zh: 0dd8198272a8a34c
-/karimbata-harness-desktop-installers/migration:
+  en: 63990a4a689c3622
+  zh: 38246642ed1d9a99
+/karimbat-harness-desktop-installers:
+  en: 14eab9d6eeada420
+  zh: 1eeb7d864c27c8d5
+/karimbat-harness-desktop-installers/change:
+  en: b8b8a49bda62a6c6
+  zh: b0c9e2141b5283b7
+/karimbat-harness-desktop-installers/migration:
   en: d27a4597c08d43a4
   zh: 112d46036cf86307

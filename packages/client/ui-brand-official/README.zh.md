@@ -9,7 +9,7 @@ kind: "package-reference"
 
 ## 概述
 
-本包让以 `official` profile 构建的客户端在侧栏显示Karimbata 标志与本地化的 Karimbata Harness 名称。其他构建 profile 保留外壳的Karimbata 标志与相同的产品名称，会话首屏则始终使用相同的主题感知标志。本包不保留运行时状态，也不影响模型请求。
+本包让以 `official` profile 构建的客户端在侧栏显示Karimbatá 标志与本地化的 Karimbatá Harness 名称。其他构建 profile 保留外壳的Karimbatá 标志与相同的产品名称，会话首屏则始终使用相同的主题感知标志。本包不保留运行时状态，也不影响模型请求。
 
 ## 目录
 
@@ -29,7 +29,7 @@ kind: "package-reference"
 
 ### 选择 profile
 
-`DSH_CLIENT_BUILD_PROFILE` 决定渲染哪个品牌。`official` 构建在侧栏显示Karimbata 标志与 Karimbata Harness 名称；任何其他取值都让外壳回退——Karimbata 标志与相同的本地化名称——保持原样。会话首屏无论 profile 如何都显示来自 `dsh-client-ui-conversation` 的主题感知的 Karimbata 标志。两种情况下插件都会照常加载并通过校验；只有注册受 profile 门控。
+`DSH_CLIENT_BUILD_PROFILE` 决定渲染哪个品牌。`official` 构建在侧栏显示Karimbatá 标志与 Karimbatá Harness 名称；任何其他取值都让外壳回退——Karimbatá 标志与相同的本地化名称——保持原样。会话首屏无论 profile 如何都显示来自 `dsh-client-ui-conversation` 的主题感知的 Karimbatá 标志。两种情况下插件都会照常加载并通过校验；只有注册受 profile 门控。
 
 ### 替换品牌
 

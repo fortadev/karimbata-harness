@@ -31,5 +31,5 @@ if (process.argv[1] !== undefined && resolve(process.argv[1]) === import.meta.fi
   const result = windowsCiSettings(process.env, product.version)
   if (!process.env.GITHUB_OUTPUT || !process.env.GITHUB_STEP_SUMMARY) throw new Error('Run this adapter from GitHub Actions')
   appendFileSync(process.env.GITHUB_OUTPUT, `version=${result.version}\n`)
-  appendFileSync(process.env.GITHUB_STEP_SUMMARY, `Karimbata Harness Windows x64 unsigned installer\n\nVersion: ${result.version}\n\nCommit: ${process.env.GITHUB_SHA}\n`)
+  appendFileSync(process.env.GITHUB_STEP_SUMMARY, `Karimbatá Harness Windows x64 unsigned installer\n\nVersion: ${result.version}\n\nCommit: ${process.env.GITHUB_SHA}\n`)
 }

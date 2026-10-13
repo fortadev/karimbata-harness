@@ -80,6 +80,7 @@ import type { WorkflowRun, WorkflowStartRequest } from '@deepseek-ai/dsh-workflo
 import * as ToolRalph from '@deepseek-ai/dsh-tool-ralph'
 import * as ToolWorkflow from '@deepseek-ai/dsh-tool-workflow'
 import * as ToolWorkspaceDependencies from '@deepseek-ai/dsh-tool-workspace-dependencies'
+import * as DocumentTools from '../packages/document/office-to-pdf/src/tools.ts'
 import { githubSlug } from './verify-md-links.ts'
 
 /** Attachment seam marker that makes the attachments-conditional `read_image` schema harvestable. */
@@ -187,6 +188,19 @@ export interface ToolPackage {
  * guard proves it is exhaustive against the on-disk glob.
  */
 const TOOL_PACKAGES: ToolPackage[] = [
+  {
+    pkg: '@deepseek-ai/dsh-office-to-pdf/tools',
+    dir: 'office-to-pdf',
+    source: 'packages/document/office-to-pdf/src/tools.ts',
+    requires: ['ctx.tools', 'ctx.fs', 'ctx.workingDirectory', 'ctx.sandboxPolicy', 'ctx.llm'],
+    writes: ['tool/call', 'new project document or PNG files', 'tool/result'],
+    async mount(ctx) {
+      await ctx.plugin(SandboxPolicy)
+      await ctx.plugin(LlmRuntime)
+      await ctx.plugin(DocumentTools)
+    },
+    note: 'Mounted by the analista-funcional preset. Rendering returns skipped without image-capable model metadata. These tools expose document operations, never arbitrary commands.',
+  },
   {
     pkg: '@deepseek-ai/dsh-plugin-manager',
     dir: 'plugin-manager',

@@ -51,7 +51,7 @@ The package also ships the `skills/` directory that creator mode mounts through 
 
 Edit `agent-experience` in [skills/agent-experience/SKILL.md](skills/agent-experience/SKILL.md). The repository discovery path, `.agents/skills/agent-experience/SKILL.md`, is a relative symbolic link to this file; the published package contains the regular file.
 
-The package also includes [Karimbata analyst resources](karimbata-skills/analista-funcional/SKILL.md) under `karimbata-skills/`, mounted only by the [functional-analysis preset](../../bundle/web-app/README.md#per-session-agent-setup). These generated Spanish resources retain their source revision and draft status. Update their owning Desarrollo Agéntico repository and synchronize the generated files together. Paths in the imported CORE documentation refer to the original FORTALEZACORE checkout; that application's source files are not included in this package.
+The package also includes [Karimbatá analyst resources](karimbata-skills/analista-funcional/SKILL.md) under `karimbata-skills/`, mounted only by the [functional-analysis preset](../../bundle/web-app/README.md#per-session-agent-setup). These generated Spanish resources retain their source revision and draft status. Update their owning Desarrollo Agéntico repository and synchronize the generated files together. Paths in the imported CORE documentation refer to the original FORTALEZACORE checkout; that application's source files are not included in this package.
 
 <a id="understand-the-implementation"></a>
 ## Understand the implementation

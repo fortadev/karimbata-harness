@@ -39,7 +39,7 @@ kind: "package-reference"
 
 用已合并进 `LocaleNamespaceMap` 的命名空间调用 `ctx.locale.register(ns, { zh, en, 'es-419': es })`；编译器会对照该命名空间的类型化键并集检查每个键，并要求三个内置 locale 齐全。消费方通过 `ctx.locale.bind(ns)` 或框架注入的 `t` 席位翻译。UI 已挂载后再注册的字典无需重新挂载即可生效。
 
-内置 `common` 字典在三种语言中都将产品名称显示为 Karimbata Harness。侧栏回退和官方名称填充共用该翻译；未提供构建时标题时，布局也使用它。
+内置 `common` 字典在三种语言中都将产品名称显示为 Karimbatá Harness。侧栏回退和官方名称填充共用该翻译；未提供构建时标题时，布局也使用它。
 
 ### 解析包文本
 

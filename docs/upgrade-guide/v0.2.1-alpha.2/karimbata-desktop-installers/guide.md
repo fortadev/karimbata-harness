@@ -1,17 +1,17 @@
 ---
 kind: upgrade-guide
-description: Desktop application names and unsigned Windows configuration change for Karimbata Harness.
+description: Desktop application names and unsigned Windows configuration change for Karimbatá Harness.
 ---
 
-# Karimbata Harness desktop installers
+# Karimbatá Harness desktop installers
 
 English | [中文](guide.zh.md)
 
 ## Change
 
-Desktop installers, shortcuts, native menus, and executable names use `Karimbata Harness`. Artifact names begin with `karimbata-harness-` instead of `deepseek-harness-`. Unsigned Windows builds ignore `.env.windows` and inherited release settings, use application ID `com.karimbata.harness`, and omit automatic updates and mandatory-update policy queries. Unsigned macOS builds use the same application ID. Signed release configuration still comes from the platform dotenv file.
+Desktop installers, shortcuts, and native menus display `Karimbatá Harness`. Executable and bundle filenames retain the unaccented `Karimbata Harness` name. Artifact names begin with `karimbata-harness-` instead of `deepseek-harness-`. Unsigned Windows builds ignore `.env.windows` and inherited release settings, use application ID `com.karimbata.harness`, and omit automatic updates and mandatory-update policy queries. Unsigned macOS builds use the same application ID. Signed release configuration still comes from the platform dotenv file.
 
-Changing the unsigned application ID creates a separate installation registration. The packaged application name selects the `Karimbata Harness` Electron browser-data directory. Harness sessions and credentials remain in the existing Harness home (`~/.dsh` by default). The Windows installer installs for the current user without elevation and supports Spanish, English, and Simplified Chinese.
+Changing the unsigned application ID creates a separate installation registration. The packaged application preserves the existing `Karimbata Harness` Electron browser-data directory; an explicitly selected directory is retained. Harness sessions and credentials remain in the existing Harness home (`~/.dsh` by default). The Windows installer installs for the current user without elevation and supports Spanish, English, and Simplified Chinese.
 
 ## Migration
 

@@ -506,7 +506,7 @@ export const es = {
   'installPathTemplateHint': 'Reemplázalo por la ruta real del directorio de tu plugin local.',
   'installGuideFill': 'Usar ejemplo',
   'installGuideFillAria': 'Usar el ejemplo {example}',
-  'installGuideSafety': 'Instala solo plugins en los que confíes: se ejecutan con tus permisos y pueden dañar Karimbata Harness o filtrar tus datos.',
+  'installGuideSafety': 'Instala solo plugins en los que confíes: se ejecutan con tus permisos y pueden dañar Karimbatá Harness o filtrar tus datos.',
   'installUpgradeNotice': 'Los plugins oficiales disponibles bajo demanda ofrecen Actualizar cuando su versión difiere de DSH. Para actualizar otros plugins, desinstálalos y vuelve a instalarlos.',
   'registryToggle': 'Registro',
   'registryLegend': 'El registro npm del que se descarga el plugin',

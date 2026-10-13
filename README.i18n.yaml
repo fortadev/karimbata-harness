@@ -2,42 +2,42 @@
 # section, a hash of its English and Chinese blocks outside code blocks and generated regions.
 # After editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write README.md
-/karimbata-harness:
-  en: 44960ad0850bbfb5
-  zh: 3c959ac384f1c78d
-/karimbata-harness/funcionalidades:
+/karimbat-harness:
+  en: 9bb39fd0e31a3189
+  zh: db3e3c7b22b492cf
+/karimbat-harness/funcionalidades:
   en: 14bf648e14c197c6
   zh: 7ac4ed4172e7a113
-/karimbata-harness/c-mo-funciona:
+/karimbat-harness/c-mo-funciona:
   en: 5ef75b55df7e9410
   zh: a2ac179ce8e62b95
-/karimbata-harness/versi-n-preliminar:
-  en: 179c165a1e262785
-  zh: 28e7c46f455d5d37
-/karimbata-harness/instalaci-n-y-ejecuci-n:
+/karimbat-harness/versi-n-preliminar:
+  en: 90b1fd4569af5e3f
+  zh: 6d142117955aa8ea
+/karimbat-harness/instalaci-n-y-ejecuci-n:
   en: 450a7290f4b1e0eb
   zh: ffaaeeea7146b580
-/karimbata-harness/instalaci-n-y-ejecuci-n/instalador-de-windows-prueba:
-  en: 08651f05119bb7f0
-  zh: 761bbb1b878a333e
-/karimbata-harness/instalaci-n-y-ejecuci-n/ejecutar-desde-el-c-digo-fuente:
+/karimbat-harness/instalaci-n-y-ejecuci-n/instalador-de-windows-prueba:
+  en: d37999e6b07c2d85
+  zh: 0c3ab41596cdf91a
+/karimbat-harness/instalaci-n-y-ejecuci-n/ejecutar-desde-el-c-digo-fuente:
   en: 45bdd2afd9c524c7
   zh: d97f9382b20384aa
-/karimbata-harness/configurar-el-proveedor-y-el-modelo-de-ia:
+/karimbat-harness/configurar-el-proveedor-y-el-modelo-de-ia:
   en: 78a4925293047155
   zh: cad5713cd8f23dd1
-/karimbata-harness/idioma-de-la-interfaz:
+/karimbat-harness/idioma-de-la-interfaz:
   en: e77863c95f84bc51
   zh: 89c826d4747551a8
-/karimbata-harness/desarrollo-y-contribuciones:
+/karimbat-harness/desarrollo-y-contribuciones:
   en: abcc7577a0804c09
   zh: 05e2e5bb948ade65
-/karimbata-harness/soporte:
-  en: 15aec15e6adc7ae7
-  zh: 98d751145cef5edf
-/karimbata-harness/cr-ditos:
+/karimbat-harness/soporte:
+  en: 523225a455f94396
+  zh: 35397d483abf4ccd
+/karimbat-harness/cr-ditos:
   en: 1eff58aee4ef4568
   zh: ee2e82f8912291ee
-/karimbata-harness/licencia:
+/karimbat-harness/licencia:
   en: 6cf384611c027eb3
   zh: 853c3717986b926c

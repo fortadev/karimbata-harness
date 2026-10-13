@@ -9,8 +9,17 @@
   en: 6cc2cd9ced70bb09
   zh: 1c0e6cb4ba2ed637
 /tool-schema-catalog/tool-package-map:
-  en: e18a3e3c916afb23
-  zh: 4284b50a5e9bd12f
+  en: 019b96b329504f60
+  zh: cefd288d7f361137
+/tool-schema-catalog/deepseek-ai-dsh-office-to-pdf-tools:
+  en: 15c0995f5110a417
+  zh: 15c0995f5110a417
+/tool-schema-catalog/deepseek-ai-dsh-office-to-pdf-tools/convertir-documento:
+  en: e20823976362efc5
+  zh: 39c8416c53b40db0
+/tool-schema-catalog/deepseek-ai-dsh-office-to-pdf-tools/render-document:
+  en: d41c7b596bbebc89
+  zh: 748ed303d7326519
 /tool-schema-catalog/deepseek-ai-dsh-plugin-manager:
   en: e0143916bb634762
   zh: e0143916bb634762

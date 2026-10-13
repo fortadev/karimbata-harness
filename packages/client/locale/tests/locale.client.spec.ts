@@ -53,7 +53,7 @@ describe('LocaleRuntime', () => {
     svc.setLocale('es-419')
     expect(svc.getLocale().active).toBe('es-419')
     expect(host.set).toHaveBeenCalledWith('preference', 'es-419')
-    expect(svc.bind('extension')('greeting', { name: 'Karimbata' })).toBe('Hola, Karimbata')
+    expect(svc.bind('extension')('greeting', { name: 'Karimbatá' })).toBe('Hola, Karimbatá')
     expect(svc.bind('extension')('missing')).toBe('Extension fallback')
   })
 

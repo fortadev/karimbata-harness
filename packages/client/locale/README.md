@@ -39,7 +39,7 @@ Native shells may provide `__DSH_LOCALE__` with an asynchronous `read()` and an 
 
 Call `ctx.locale.register(ns, { zh, en, 'es-419': es })` with a namespace merged into `LocaleNamespaceMap`; the compiler checks every key against the namespace's typed key union and requires all three shipped locales. Consumers translate through `ctx.locale.bind(ns)` or the framework-injected `t` seat. A dictionary registered after the UI is already mounted is picked up without a remount.
 
-The shipped `common` dictionaries display the product name as Karimbata Harness in all three languages. The sidebar fallback and official name occupant share that translation; the layout also uses it when no build-time title is supplied.
+The shipped `common` dictionaries display the product name as Karimbatá Harness in all three languages. The sidebar fallback and official name occupant share that translation; the layout also uses it when no build-time title is supplied.
 
 ### Resolving package text
 

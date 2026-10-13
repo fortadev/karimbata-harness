@@ -1,4 +1,4 @@
-Karimbata Harness is unavailable
+Karimbatá Harness is unavailable
 The application could not start or stopped unexpectedly.
 Desktop Host failed
 Plugin initialization failed

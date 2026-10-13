@@ -51,7 +51,7 @@ kind: "package-reference"
 
 在 [skills/agent-experience/SKILL.md](skills/agent-experience/SKILL.md) 编辑 `agent-experience`。仓库发现路径 `.agents/skills/agent-experience/SKILL.md` 是指向该文件的相对符号链接；发布包包含普通文件。
 
-本包还在 `karimbata-skills/` 下包含 [Karimbata 分析师资源](karimbata-skills/analista-funcional/SKILL.md)，仅由[功能分析 preset](../../bundle/web-app/README.zh.md#per-session-agent-setup) 挂载。这些生成的西班牙语资源保留源版本和草稿状态。应修改其所属的 Desarrollo Agéntico 仓库，并一起同步生成文件。导入的 CORE 文档中的路径指向原始 FORTALEZACORE 检出目录；本包不包含该应用的源文件。
+本包还在 `karimbata-skills/` 下包含 [Karimbatá 分析师资源](karimbata-skills/analista-funcional/SKILL.md)，仅由[功能分析 preset](../../bundle/web-app/README.zh.md#per-session-agent-setup) 挂载。这些生成的西班牙语资源保留源版本和草稿状态。应修改其所属的 Desarrollo Agéntico 仓库，并一起同步生成文件。导入的 CORE 文档中的路径指向原始 FORTALEZACORE 检出目录；本包不包含该应用的源文件。
 
 <a id="understand-the-implementation"></a>
 ## 理解实现

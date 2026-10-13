@@ -3,7 +3,7 @@ import { KARIMBATA_ACCENT_PATH, KARIMBATA_PRIMARY_PATH } from './karimbata-artwo
 import css from './KarimbataLogo.module.css'
 
 /**
- * Render the transparent Karimbata mark using the active theme's artwork colors.
+ * Render the transparent Karimbatá mark using the active theme's artwork colors.
  * @param props - Square size in pixels and optional placement class.
  * @returns decorative SVG; its host supplies the accessible product name.
  */

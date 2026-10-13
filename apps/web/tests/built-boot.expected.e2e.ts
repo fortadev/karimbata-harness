@@ -61,7 +61,7 @@ it('boots the built plugin graph and renders a fixture session end to end', asyn
 
   // The sidebar renders from the boot graph: every inject layer activated.
   const tree = await screen.findByRole('tree', { name: 'Sessions' }, { timeout: 10_000 })
-  screen.getByText('Karimbata Harness')
+  screen.getByText('Karimbatá Harness')
   expect(document.querySelectorAll('svg[viewBox="0 0 2500 2500"]').length).toBeGreaterThanOrEqual(2)
   if (clientBuildValue('DSH_CLIENT_BUILD_PROFILE') === 'official') {
     expect(document.querySelector('svg[viewBox="26 0 156 24"]')).toBeNull()

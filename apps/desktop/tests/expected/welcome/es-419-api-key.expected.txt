@@ -1,5 +1,5 @@
-Karimbata Harness
-Karimbata Harness
+Karimbatá Harness
+Karimbatá Harness
 Agrega una clave API para comenzar
 Configura los modelos oficiales de DeepSeek para comenzar a usar Harness
 Ingresa la clave API [password]

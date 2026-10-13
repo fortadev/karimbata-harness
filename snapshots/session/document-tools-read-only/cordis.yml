@@ -1,0 +1,9 @@
+- id: tool-bash
+  disabled: true
+
+- id: tool-pwsh
+  disabled: true
+
+- insert:
+    - id: tool-document
+      name: '@deepseek-ai/dsh-office-to-pdf/tools'
